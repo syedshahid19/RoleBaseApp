@@ -4,25 +4,26 @@ const passport = require('passport');
 const jwt = require("jsonwebtoken");
 require("../passport");
 
-// router.post('/set-account-type', (req, res) => {
-//     console.log("Request Body:", req.body); // Check the incoming request body
-//     const { accountType } = req.body;
+router.post('/set-account-type', (req, res) => {
+    console.log("Request Body:", req.body); // Check the incoming request body
+    const { accountType } = req.body;
 
-//     // Proceed only if accountType is present
-//     if (!accountType) {
-//         return res.status(400).json({ message: "Account type is required." });
-//     }
+    // Proceed only if accountType is present
+    if (!accountType) {
+        return res.status(400).json({ message: "Account type is required." });
+    }
 
-//     // Initialize session if it's not already
-//     if (!req.session) {
-//         console.error("Session is not initialized.");
-//         return res.status(500).json({ message: "Session is not initialized." });
-//     }
+    // Initialize session if it's not already
+    if (!req.session) {
+        console.error("Session is not initialized.");
+        return res.status(500).json({ message: "Session is not initialized." });
+    }
 
-//     req.cookies.accountType = accountType;
-//     console.log("Session accountType set to:", accountType);
-//     res.status(200).json({ message: "Account type set successfully" });
-// });
+    req.session.accountType = accountType;
+    console.log("Session accountType set:", req.session.accountType); 
+    console.log("Session accountType set:", req.session); 
+    res.status(200).json({ message: "Account type set successfully" });
+});
 
 
 // Auth 

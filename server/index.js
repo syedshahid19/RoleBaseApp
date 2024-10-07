@@ -1,44 +1,57 @@
 const express = require("express");
 const app = express();
-const {dbConnect} = require("./config/database");
+const { dbConnect } = require("./config/database");
 const cookieParser = require("cookie-parser");
-const userRoutes = require("./routes/User");
-const authRoutes = require("./routes/googleUser");
-const session = require('express-session');
+const authRoutes = require("./routes/User");
+const googleRoutes = require("./routes/googleUser");
+const adminRoutes = require("./routes/adminRoutes");
+const vendorRoutes = require("./routes/vendorRoutes");
+const userRoutes = require("./routes/userRoutes");
+const session = require("express-session");
+const passport = require('passport');
 var cors = require("cors");
+const MongoStore = require('connect-mongo');
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
 
 app.use(
-	cors({
-		origin:"http://localhost:3000",
-		credentials:true,
-	})
-)
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
-app.post('/set-account-type', (req, res) => {
-    const { accountType } = req.body;
-    // Store the accountType in the session (or JWT or encrypted cookie)
-    req.session.accountType = accountType;
-    res.status(200).json({ message: "Account type set successfully" });
-  });
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      store: new MongoStore({
+        mongoUrl: process.env.DATABASE_URL,
+        collectionName: "sessions", // Optional: specify the collection name for sessions
+      }),
+      cookie: { secure: false }, // Set secure: true if using HTTPS
+    })
+);
 
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET 
-}));
+
+// Initialize Passport and restore authentication state
+app.use(passport.initialize());
+app.use(passport.session());
 
 dbConnect();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/api/v1", userRoutes);
-app.use("/", authRoutes)
+app.use("/api/v1", authRoutes);
+app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/vendor", vendorRoutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/", googleRoutes);
 
-
-app.listen(PORT, ()=>{
-    console.log(`Server started successfully at ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server started successfully at ${PORT}`);
 });

@@ -1,134 +1,118 @@
-import { useState } from "react"
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import {toast} from 'react-hot-toast'
-import { ACCOUNT_TYPE } from "../../../utils/constants"
-import Tab from "../../common/Tab"
-import { NavLink,useNavigate } from "react-router-dom"
-import axios from "axios"
-import { FcGoogle } from "react-icons/fc"
-import Cookies from 'js-cookie';
-const BASE_URL = process.env.REACT_APP_BASE_URL
+import { useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { toast } from "react-hot-toast";
+import { ACCOUNT_TYPE } from "../../../utils/constants";
+import Tab from "../../common/Tab";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
+import Cookies from "js-cookie";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 function SignupForm() {
-  // student or instructor
-  const [accountType, setAccountType] = useState(ACCOUNT_TYPE.ADMIN)
-
+  const [accountType, setAccountType] = useState(ACCOUNT_TYPE.ADMIN);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumber:"",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
-  })
+  });
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
-  const { firstName, lastName, email, phoneNumber, password, confirmPassword } = formData
+  const { firstName, lastName, email, phoneNumber, password, confirmPassword } =
+    formData;
 
-  // Handle input fields, when some value changes
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
-  const handleOnSubmit = async (e)=>{
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    if(password !== confirmPassword){
+    if (password !== confirmPassword) {
       toast.error("Passwords Do Not Match");
       return;
     }
 
     const signupData = {
       ...formData,
-      accountType
-    }
+      accountType,
+    };
 
-    try{
+    try {
       const response = await axios.post(`${BASE_URL}/signup`, signupData);
-      localStorage.setItem('userId', response.data.user._id);
-      console.log("sign up response", response);
       const { token } = response.data;
-      localStorage.setItem('authToken', token);
+
+      // Set token in cookie instead of local storage
+      Cookies.set("authToken", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+        expires: 1,
+      }); // Expires in 1 day
+
       toast.success("Account created successfully! Please log in.");
       navigate("/login");
-    }catch(error){
-      if(error.response && error.response.data && error.response.data.message){
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         toast.error(error.response.data.message);
         navigate("/login");
-      }else {
+      } else {
         toast.error("Something went wrong. Please try again later.");
-        navigate("/login");
       }
     }
 
-    // Reset
+    // Reset form
     setFormData({
       firstName: "",
       lastName: "",
       email: "",
-      phoneNumber:"",
+      phoneNumber: "",
       password: "",
       confirmPassword: "",
-    })
-    setAccountType(ACCOUNT_TYPE.ADMIN)
+    });
+    setAccountType(ACCOUNT_TYPE.ADMIN);
+  };
 
-  }
-
-
-  // data to pass to Tab component
   const tabData = [
-    {
-      id: 1,
-      tabName: "Admin",
-      type: ACCOUNT_TYPE.ADMIN,
-    },
-    {
-      id: 2,
-      tabName: "Vendor",
-      type: ACCOUNT_TYPE.VENDOR,
-    },
-    {
-      id: 3,
-      tabName: "User",
-      type: ACCOUNT_TYPE.USER,
-    },
-  ]
+    { id: 1, tabName: "Admin", type: ACCOUNT_TYPE.ADMIN },
+    { id: 2, tabName: "Vendor", type: ACCOUNT_TYPE.VENDOR },
+    { id: 3, tabName: "User", type: ACCOUNT_TYPE.USER },
+  ];
 
-  const handleGoogleSignup = async() => {
-
+  const handleGoogleSignup = async () => {
     try {
-    //   // Send account type to backend via POST request before Google signup
-    //   console.log("Sending accountType:", accountType); // Debugging line
-    //   await axios.post(`http://localhost:4000/set-account-type`, { accountType }, {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     }
-    // });
-      
-      // Redirect to Google OAuth flow
+      await axios.post(
+        `http://localhost:4000/set-account-type`,
+        { accountType },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      window.location.href = `http://localhost:4000/auth/google`;
     } catch (error) {
       toast.error("Error while setting account type");
       console.error(error);
     }
-    // Logic for Google signup
-    // window.location.href = `http://localhost:4000/auth/google`;
-    // Cookies.set('token');
-
-    window.location.href = `http://localhost:4000/auth/google`;
-      Cookies.set('token');
   };
 
   return (
     <div>
-      {/* Tab */}
       <Tab tabData={tabData} field={accountType} setField={setAccountType} />
-      {/* Form */}
       <form className="flex w-full flex-col gap-y-4" onSubmit={handleOnSubmit}>
         <div className="flex gap-x-4">
           <label>
@@ -248,7 +232,7 @@ function SignupForm() {
         <div className="flex items-center justify-between mt-4 border-b border-richblue-100 pb-6">
           <span className="text-white">Already have an account?</span>
           <NavLink to="/login" className="text-yellow-200 hover:underline">
-            Sign Up
+            Login
           </NavLink>
         </div>
         <button
@@ -261,7 +245,7 @@ function SignupForm() {
         </button>
       </form>
     </div>
-  )
+  );
 }
 
-export default SignupForm
+export default SignupForm;

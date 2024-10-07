@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Tab = ({ tabData, field, setField }) => {
   return (
@@ -22,7 +22,7 @@ const Tab = ({ tabData, field, setField }) => {
         </button>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Tab
+export default Tab;
