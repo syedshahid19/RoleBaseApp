@@ -31,7 +31,7 @@ const ManualLeadEntry = () => {
       });
     } catch (err) {
       console.error(err);
-      toast.error("Failed to add lead, please try again.");
+      toast.error("Lead Already Exists");
     }
   };
 
