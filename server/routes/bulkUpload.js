@@ -7,6 +7,7 @@ const router = express.Router();
 // Set up Multer storage
 const storage = multer.memoryStorage(); // or use diskStorage if you want to save to a file
 const upload = multer({ storage: storage });
+const multer = require('multer');
 
 router.post('/upload', upload.single('csvFile'), async (req, res) => {
   const results = [];

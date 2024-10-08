@@ -8,9 +8,6 @@ const vendorRoutes = require("./routes/vendorRoutes");
 const userRoutes = require("./routes/userRoutes");
 const BulkUploadRoutes = require("./routes/bulkUpload");
 var cors = require("cors");
-const multer = require('multer');
-const storage = multer.memoryStorage(); // Store file in memory temporarily
-const upload = multer({ storage });
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
