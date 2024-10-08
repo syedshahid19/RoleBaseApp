@@ -4,7 +4,7 @@ const Lead = require("../models/Lead");
 // Get all leads across all stages
 exports.getAllLeads = async(req, res)=>{
     try {
-        const leads = await Lead.find().populate("assignedTo createdBy");
+        const leads = await Lead.find()
         return res.status(200).json({ success: true, leads });
     } catch (error) {
         return res.status(500).json({ success: false, message: "Server Error" });

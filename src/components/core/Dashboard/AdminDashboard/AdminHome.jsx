@@ -1,12 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const AdminHome = () => {
-  const [leads] = useState([
-    { _id: "001", name: "John Doe", status: "New" },
-    { _id: "002", name: "Jane Smith", status: "Pending" },
-    { _id: "003", name: "Mike Johnson", status: "Deal Won" },
-    { _id: "004", name: "Sara Williams", status: "Deal Lost" },
-  ]);
+  const [leads, setLeads] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLeads = async () => {
+      try {
+        const token = localStorage.getItem('authToken'); // or however you are storing the token
+        console.log("Token:", token);
+        const response = await axios.get(`${BASE_URL}/admin/leads`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Add your token here
+          }
+        });
+        console.log(response.data);
+        setLeads(response.data.leads) // Assuming your API returns an array of leads
+      } catch (err) {
+        console.error("Error fetching leads:", err);
+        setError("Failed to load leads");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchLeads();
+  }, []);
+  
+
+  if (loading) {
+    return <div>Loading leads...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="p-6">
@@ -19,6 +51,7 @@ const AdminHome = () => {
           >
             <h2 className="text-xl font-semibold mb-2">{lead.name}</h2>
             <p className="text-gray-600 mb-4">Status: {lead.status}</p>
+            <p className="text-gray-600 mb-4">Contact: {lead.contact}</p>
             <div className="flex justify-between">
               <button className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition-colors">
                 Assign
