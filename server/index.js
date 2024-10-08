@@ -6,7 +6,11 @@ const authRoutes = require("./routes/User");
 const adminRoutes = require("./routes/adminRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
 const userRoutes = require("./routes/userRoutes");
+const BulkUploadRoutes = require("./routes/bulkUpload");
 var cors = require("cors");
+const multer = require('multer');
+const storage = multer.memoryStorage(); // Store file in memory temporarily
+const upload = multer({ storage });
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
@@ -25,6 +29,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1", authRoutes);
+app.use("/api/v1", BulkUploadRoutes);
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/vendor", vendorRoutes);
 app.use("/api/v1/user", userRoutes);

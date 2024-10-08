@@ -55,6 +55,15 @@ const AdminSidebar = () => {
             Reports
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/admin-dashboard/bulk-upload"
+            className="block py-2 px-4 hover:bg-richblue-400 rounded"
+            activeClassName="bg-richblue-700"
+          >
+            Bulk Upload
+          </NavLink>
+        </li>
         <button onClick={handleLogout}>Logout</button>
       </ul>
     </div>

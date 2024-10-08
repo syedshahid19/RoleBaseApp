@@ -8,6 +8,7 @@ import UserDashboard from "./components/core/Dashboard/UserDashboard/UserDashboa
 import ProtectedRoute from "./components/core/Auth/ProtectedRoute";
 import AdminHome from "./components/core/Dashboard/AdminDashboard/AdminHome";
 import ManualLeadEntry from "./components/core/Dashboard/UserDashboard/ManualLeadEntry";
+import BulkUpload from "./components/common/BulkUpload";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="assign-vendor" element={<div>Assign Vendor</div>} />
           <Route path="commission" element={<div>Commission</div>} />
           <Route path="reports" element={<div>Reports</div>} />
+          <Route path="bulk-upload" element={<BulkUpload/>} />
         </Route>
 
 
