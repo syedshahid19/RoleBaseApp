@@ -3,7 +3,6 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { FcGoogle } from "react-icons/fc";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -65,10 +64,6 @@ function LoginForm() {
   };
   
 
-  const handleGoogleLogin = () => {
-    window.location.href = `http://localhost:4000/auth/google`;
-  };
-
   return (
     <form
       onSubmit={handleOnSubmit}
@@ -123,21 +118,13 @@ function LoginForm() {
         {loading ? "Signing In..." : "Sign In"}
       </button>
 
-      <div className="flex items-center justify-between mt-4 border-b border-richblue-100 pb-6">
+      <div className="flex items-center justify-between mt-4">
         <span className="text-white">Don't have an account?</span>
         <NavLink to="/signup" className="text-yellow-200 hover:underline">
           Sign Up
         </NavLink>
       </div>
 
-      <button
-        type="button"
-        onClick={handleGoogleLogin}
-        className="mt-4 flex items-center justify-center rounded-lg bg-white py-2 px-4 text-gray-900 font-medium hover:bg-royalblue-600 hover:text-white transition duration-300 border"
-      >
-        <FcGoogle className="mr-2" size={24} />
-        Login with Google
-      </button>
     </form>
   );
 }

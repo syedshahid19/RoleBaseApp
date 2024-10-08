@@ -9,6 +9,7 @@ const ManualLeadEntry = () => {
     name: "",
     contact: "",
     service: "",
+    location:"",
     status: "New",
   });
 
@@ -25,6 +26,7 @@ const ManualLeadEntry = () => {
         name: "",
         contact: "",
         service: "",
+        location:"",
         status: "New",
       });
     } catch (err) {
@@ -70,6 +72,19 @@ const ManualLeadEntry = () => {
           name="service"
           id="service"
           value={leadData.service}
+          onChange={handleChange}
+          className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="contact" className="block mb-2 text-gray-700 font-semibold">Location</label>
+        <input
+          type="text"
+          name="location"
+          id="location"
+          value={leadData.location}
           onChange={handleChange}
           className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           required

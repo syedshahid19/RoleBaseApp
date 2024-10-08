@@ -49,12 +49,16 @@ const LeadSchema = new mongoose.Schema({
     required: true,
   },
   contact: {
-    type: String,
+    type: Number,
     required: true,
   },
   service: {
     type: String,
     required: true,
+  },
+  location: {
+    type: String,
+    required: true
   },
   status: {
     type: String,

@@ -5,7 +5,6 @@ import { ACCOUNT_TYPE } from "../../../utils/constants";
 import Tab from "../../common/Tab";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FcGoogle } from "react-icons/fc";
 import Cookies from "js-cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -93,22 +92,7 @@ function SignupForm() {
     { id: 3, tabName: "User", type: ACCOUNT_TYPE.USER },
   ];
 
-  const handleGoogleSignup = async () => {
-    try {
-      await axios.post(
-        `http://localhost:4000/set-account-type`,
-        { accountType },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
 
-      window.location.href = `http://localhost:4000/auth/google`;
-    } catch (error) {
-      toast.error("Error while setting account type");
-      console.error(error);
-    }
-  };
 
   return (
     <div>
@@ -229,20 +213,13 @@ function SignupForm() {
           Create Account
         </button>
 
-        <div className="flex items-center justify-between mt-4 border-b border-richblue-100 pb-6">
+        <div className="flex items-center justify-between mt-4">
           <span className="text-white">Already have an account?</span>
           <NavLink to="/login" className="text-yellow-200 hover:underline">
             Login
           </NavLink>
         </div>
-        <button
-          type="button"
-          onClick={handleGoogleSignup}
-          className="mt-4 flex items-center justify-center rounded-lg bg-white py-2 px-4 text-gray-900 font-medium hover:bg-royalblue-600 hover:text-white transition duration-300 border"
-        >
-          <FcGoogle className="mr-2" size={24} />
-          Sign Up with Google
-        </button>
+        
       </form>
     </div>
   );
