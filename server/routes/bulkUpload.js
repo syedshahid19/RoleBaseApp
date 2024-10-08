@@ -4,6 +4,10 @@ const { Readable } = require('stream');
 
 const router = express.Router();
 
+// Set up Multer storage
+const storage = multer.memoryStorage(); // or use diskStorage if you want to save to a file
+const upload = multer({ storage: storage });
+
 router.post('/upload', upload.single('csvFile'), async (req, res) => {
   const results = [];
   const CHUNK_SIZE = 1000; // Adjust batch size based on your server's memory limits
