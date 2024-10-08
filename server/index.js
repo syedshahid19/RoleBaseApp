@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "https://role-base-app.vercel.app/login",
+    origin: "https://role-base-app.vercel.app",
     credentials: true,
   })
 );
