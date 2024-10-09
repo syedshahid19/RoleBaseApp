@@ -1,4 +1,3 @@
-// routes/vendor.js
 const express = require("express");
 const router = express.Router();
 const { auth, isVendor } = require("../middleware/Auth");
@@ -7,7 +6,11 @@ const {
   updateLeadStatus,
   getTeamPerformance,
   getEarnedCommissions,
+  createVendor
 } = require("../controllers/vendorController");
+
+// creation of vendor
+router.post('/Createvendor',auth, isVendor, createVendor);
 
 // Get leads assigned to the vendor
 router.get("/leads", auth, isVendor, getAssignedLeads);

@@ -30,15 +30,6 @@ const AdminSidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/admin-dashboard/vendors-creation"
-            className="block py-2 px-4 hover:bg-richblue-400 rounded"
-            activeClassName="bg-richblue-700"
-          >
-            Create Vendor
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
             to="/admin-dashboard/commission"
             className="block py-2 px-4 hover:bg-richblue-400 rounded"
             activeClassName="bg-richblue-700"

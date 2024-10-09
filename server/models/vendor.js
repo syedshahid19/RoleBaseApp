@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 
 const vendorSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  phone: { type: Number, required: true },
+  userId: {  
+    type: mongoose.Schema.Types.ObjectId, // Reference to the Vendor model
+    ref: 'User', 
+    required: true 
+  },
   location: {
     type: String,
     enum: ['India', 'USA', 'UK', 'China', 'Japan'],

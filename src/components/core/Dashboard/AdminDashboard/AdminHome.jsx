@@ -35,6 +35,8 @@ const AdminHome = () => {
           },
         });
         setVendors(vendorsResponse.data.vendors); // Assuming your API returns vendors array
+        console.log("get vendors", vendorsResponse.data.vendors);
+        
       } catch (err) {
         console.error("Error fetching data:", err);
         setError("Failed to load data");
@@ -106,8 +108,12 @@ const AdminHome = () => {
   // Function to find the vendor name by its ID
   const getVendorNameById = (vendorId) => {
   const vendor = vendors.find((vendor) => vendor._id === vendorId);
-  return vendor ? vendor.name : "None"; // Return 'None' if vendor is not found
-};
+  console.log("vendor", vendor);
+  
+  return vendor ? vendor.userId.firstName : "None"; // Return 'None' if vendor is not found
+ };
+
+  console.log("leads", leads);
 
   return (
     <div className="p-6">
@@ -145,7 +151,7 @@ const AdminHome = () => {
                 <p className="text-gray-600 mb-4">Status: {lead.status}</p>
                 <p className="text-gray-600 mb-4">Contact: {lead.contact}</p>
                 <p className="text-gray-600 mb-4">
-                    Assigned Vendor: {lead.assignedTo ? getVendorNameById(lead.assignedTo) : "None"}
+                    Assigned Vendor: {lead.assignedTo ? getVendorNameById(lead?.assignedTo) : "None"}
                 </p>
                 <div className="flex justify-between items-center">
                   {/* Assign Vendor Button */}
@@ -159,7 +165,7 @@ const AdminHome = () => {
                         <option value="">Select Vendor</option>
                         {vendors.map((vendor) => (
                           <option key={vendor._id} value={vendor._id}>
-                            {vendor.name}
+                            {vendor?.userId.firstName}
                           </option>
                         ))}
                       </select>
@@ -217,17 +223,20 @@ const AdminHome = () => {
         <>
           <h1 className="text-3xl font-bold mb-6">All Vendors</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {vendors.map((vendor) => (
-              <div
+            {vendors.map((vendor) => {
+              const { userId, location, service} = vendor;
+              return(
+                <div
                 key={vendor._id}
                 className="bg-white shadow-lg rounded-lg p-4 transform transition-transform duration-300 hover:scale-105"
               >
-                <h2 className="text-xl font-semibold mb-2">{vendor.name}</h2>
-                <p className="text-gray-600 mb-4">Location: {vendor.location}</p>
-                <p className="text-gray-600 mb-4">Service: {vendor.service}</p>
-                <p className="text-gray-600 mb-4">Phone: {vendor.phone}</p>
+                <h2 className="text-xl font-semibold mb-2">{userId?.firstName}</h2>
+                <p className="text-gray-600 mb-4">Location: {location}</p>
+                <p className="text-gray-600 mb-4">Service: {service}</p>
+                <p className="text-gray-600 mb-4">Phone: {userId?.phoneNumber}</p>
               </div>
-            ))}
+              )
+            })}
           </div>
         </>
       )}

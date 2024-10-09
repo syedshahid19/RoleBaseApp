@@ -8,7 +8,7 @@ const {createVendor, getVendors} = require("../controllers/vendorController");
 router.get("/leads", auth, isAdmin, getAllLeads);
 
 // Create Vendors
-router.post('/vendors',auth, isAdmin, createVendor);
+// router.post('/vendors',auth, isAdmin, createVendor);
 
 // Get all leads
 router.get('/getVendors', auth, isAdmin,getVendors);

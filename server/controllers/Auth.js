@@ -51,6 +51,15 @@ exports.signup = async (req, res) => {
       });
     }
 
+    // Check if user with the provided phone number already exists
+    const existPhoneNumber = await User.findOne({ phoneNumber });
+    if (existPhoneNumber) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number is already registered. Please use a different phone number.",
+      });
+    }
+
     // Secure Password
     let hashPassword;
     try {

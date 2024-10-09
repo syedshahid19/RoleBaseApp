@@ -7,31 +7,50 @@ const Vendor = require("../models/vendor");
 // Create Vendor
 exports.createVendor = async (req, res) => {
   try {
-    const { name, phone, location, service } = req.body;
+    const { userId, location, service } = req.body;
 
-    const existingLead = await Vendor.findOne({ phone });
-    if (existingLead) {
-      return res.status(400).json({ message: 'Vendor already exists.' });
+    // Find the user by ID and select firstName and phoneNumber
+    const user = await User.findById(userId).select('firstName phoneNumber');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
     }
 
-    const vendor = new Vendor({
-      name,
-      phone,
-      location,
-      service,
+    // Check for duplicate vendor
+    const existingVendor = await Vendor.findOne({ userId });
+    if (existingVendor) {
+      return res.status(400).json({
+        success: false,
+        message: 'Vendor already exists'
+      });
+    }
+
+
+   // Create a new vendor with the user reference
+   const newVendor = new Vendor({
+    userId: user._id, // Reference to the User model
+    location,
+    service
     });
 
-    await vendor.save();
-    res.status(201).json({ success: true, vendor });
+    await newVendor.save();
+    res.status(201).json({ success: true, newVendor });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: 'Error creating vendor',
+      error: error.message
+    });
   }
 };
 
 // Get all vendors
 exports.getVendors = async (req, res) => {
   try {
-    const vendors = await Vendor.find();
+    const vendors = await Vendor.find().populate("userId", "firstName phoneNumber");
     res.status(200).json({ success: true, vendors });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

@@ -50,7 +50,8 @@ function SignupForm() {
     try {
       const response = await axios.post(`${BASE_URL}/signup`, signupData);
       const { token } = response.data;
-
+      console.log("response", response);
+      
       // Set token in cookie instead of local storage
       Cookies.set("authToken", token, {
         httpOnly: true,
@@ -58,6 +59,7 @@ function SignupForm() {
         sameSite: "Strict",
         expires: 1,
       }); // Expires in 1 day
+      
 
       toast.success("Account created successfully! Please log in.");
       navigate("/login");

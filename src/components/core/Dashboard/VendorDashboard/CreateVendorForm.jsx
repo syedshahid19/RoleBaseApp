@@ -6,18 +6,16 @@ import { toast } from "react-hot-toast";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const CreateVendorForm = () => {
-  const [vendorName, setVendorName] = useState("");
-  const [contactInfo, setContactInfo] = useState("");
   const [location, setLocation] = useState("");
   const [service, setService] = useState("");
 
   const handleSubmit = async (e) => {
+    const userId = localStorage.getItem("userId");
     e.preventDefault();
     try {
       const token = localStorage.getItem('authToken');
-      await axios.post(`${BASE_URL}/admin/vendors`, {
-        name: vendorName,
-        phone: contactInfo,
+      await axios.post(`${BASE_URL}/vendor/Createvendor`, {
+        userId,
         location,
         service
       }, {
@@ -29,7 +27,7 @@ const CreateVendorForm = () => {
       resetForm();
       
     } catch (err) {
-      toast.error("Vendor Already Exists");
+      toast.error("Vendor already exists");
       
       // Reset form fields even if vendor already exists
       resetForm();
@@ -38,8 +36,6 @@ const CreateVendorForm = () => {
 
   // Function to reset form fields
   const resetForm = () => {
-    setVendorName("");
-    setContactInfo("");
     setLocation("");
     setService("");
   };
@@ -48,22 +44,6 @@ const CreateVendorForm = () => {
     <div className="max-w-lg mx-auto p-6 bg-richblack-5 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-richblue-500">Create Vendor</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Vendor Name"
-          value={vendorName}
-          onChange={(e) => setVendorName(e.target.value)}
-          required
-          className="border p-3 w-full rounded bg-richblack-800 text-richblack-25"
-        />
-        <input
-          type="number"
-          placeholder="Contact Information"
-          value={contactInfo}
-          onChange={(e) => setContactInfo(e.target.value)}
-          required
-          className="border p-3 w-full rounded bg-richblack-800 text-richblack-25"
-        />
         <select
           value={location}
           onChange={(e) => setLocation(e.target.value)}

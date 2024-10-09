@@ -30,6 +30,15 @@ const VendorSidebar = () => {
         </li>
         <li>
           <NavLink
+            to="/vendor-dashboard/vendors-creation"
+            className="block py-2 px-4 hover:bg-richblue-400 rounded"
+            activeClassName="bg-richblue-700"
+          >
+            Create Vendor
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/vendor-dashboard/Tracking-Performance"
             className="block py-2 px-4 hover:bg-richblue-400 rounded"
             activeClassName="bg-richblue-700"

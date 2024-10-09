@@ -35,10 +35,12 @@ function LoginForm() {
       );
 
       const { token, accountType } = response.data.user;
+
     
       // Store token and role
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", accountType);
+      localStorage.setItem("userId", response.data.user._id);
 
       toast.success("Logged In");
 
