@@ -14,7 +14,7 @@ const CreateVendorForm = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('authToken');
-      await axios.post(`${BASE_URL}/vendor/Createvendor`, {
+      const response = await axios.post(`${BASE_URL}/vendor/Createvendor`, {
         userId,
         location,
         service
@@ -22,7 +22,8 @@ const CreateVendorForm = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Vendor added successfully!");
-      
+      // console.log("response",  response.data.newVendor);
+      localStorage.setItem("vendorId", response.data.newVendor._id)
       // Reset form fields after successful submission
       resetForm();
       

@@ -60,14 +60,20 @@ exports.getVendors = async (req, res) => {
 // Get all leads assigned to the vendor
 exports.getAssignedLeads = async (req, res) => {
   try {
-    const vendorId = req.user._id; // Assuming user ID is stored in JWT
-    const leads = await Lead.find({ assignedTo: vendorId }).populate("createdBy");
+    const vendorId = req.params.vendorId; // Extract vendor ID from URL
+    console.log("vendorId", vendorId);
+    
+    if (!vendorId) {
+      return res.status(400).json({ success: false, message: "Vendor ID missing" });
+    }
 
+    const leads = await Lead.find({ assignedTo: vendorId });
     return res.status(200).json({ success: true, leads });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
 
 // Update lead status by the vendor
 exports.updateLeadStatus = async (req, res) => {

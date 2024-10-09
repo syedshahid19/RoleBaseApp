@@ -13,7 +13,7 @@ const {
 router.post('/Createvendor',auth, isVendor, createVendor);
 
 // Get leads assigned to the vendor
-router.get("/leads", auth, isVendor, getAssignedLeads);
+router.get("/:vendorId/getAssignedleads", auth, isVendor, getAssignedLeads);
 
 // Update lead status by the vendor
 router.put("/leads/:id/status", auth, isVendor, updateLeadStatus);
