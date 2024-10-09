@@ -52,12 +52,14 @@ const LeadSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  service: {
-    type: String,
-    required: true,
-  },
   location: {
     type: String,
+    enum: ['India', 'USA', 'UK', 'China', 'Japan'],
+    required: true
+  },
+  service: {
+    type: String,
+    enum: ['Investment Advice', 'Wealth Management', 'Financial Planning'],
     required: true
   },
   status: {

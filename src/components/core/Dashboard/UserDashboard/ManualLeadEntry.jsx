@@ -4,12 +4,17 @@ import { toast } from "react-hot-toast";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+// Location, Service, and Status Arrays
+const locations = ['India', 'USA', 'UK', 'China', 'Japan'];
+const services = ['Investment Advice', 'Wealth Management', 'Financial Planning'];
+const statuses = ['New', 'Pending', 'Deal Won', 'Deal Lost'];
+
 const ManualLeadEntry = () => {
   const [leadData, setLeadData] = useState({
     name: "",
     contact: "",
     service: "",
-    location:"",
+    location: "",
     status: "New",
   });
 
@@ -22,17 +27,25 @@ const ManualLeadEntry = () => {
     try {
       await axios.post(`${BASE_URL}/user/createLead`, leadData); 
       toast.success("Lead added successfully!");
-      setLeadData({
-        name: "",
-        contact: "",
-        service: "",
-        location:"",
-        status: "New",
-      });
+      // Reset form fields after successful submission
+      resetForm();
     } catch (err) {
       console.error(err);
       toast.error("Lead Already Exists");
+      // Reset form fields even if vendor already exists
+      resetForm();
     }
+  };
+
+  // Function to reset form fields
+  const resetForm = () => {
+    setLeadData({
+      name: "",
+      contact: "",
+      service: "",
+      location: "",
+      status: "New",
+    });
   };
 
   return (
@@ -67,32 +80,47 @@ const ManualLeadEntry = () => {
 
       <div className="mb-4">
         <label htmlFor="service" className="block mb-2 text-gray-700 font-semibold">Service Interested In</label>
-        <input
-          type="text"
+        {/* Select for Service */}
+        <select
           name="service"
           id="service"
           value={leadData.service}
           onChange={handleChange}
           className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
-        />
+        >
+          <option value="">Select Service</option>
+          {services.map((service, index) => (
+            <option key={index} value={service}>
+              {service}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-4">
-        <label htmlFor="contact" className="block mb-2 text-gray-700 font-semibold">Location</label>
-        <input
-          type="text"
+        <label htmlFor="location" className="block mb-2 text-gray-700 font-semibold">Location</label>
+        {/* Select for Location */}
+        <select
           name="location"
           id="location"
           value={leadData.location}
           onChange={handleChange}
           className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
-        />
+        >
+          <option value="">Select Location</option>
+          {locations.map((location, index) => (
+            <option key={index} value={location}>
+              {location}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-4">
         <label htmlFor="status" className="block mb-2 text-gray-700 font-semibold">Status</label>
+        {/* Select for Status */}
         <select
           name="status"
           id="status"
@@ -100,10 +128,12 @@ const ManualLeadEntry = () => {
           onChange={handleChange}
           className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="New">New</option>
-          <option value="Pending">Pending</option>
-          <option value="Deal Won">Deal Won</option>
-          <option value="Deal Lost">Deal Lost</option>
+          <option value="">Select Status</option>
+          {statuses.map((status, index) => (
+            <option key={index} value={status}>
+              {status}
+            </option>
+          ))}
         </select>
       </div>
 

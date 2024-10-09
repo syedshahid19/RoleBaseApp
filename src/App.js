@@ -3,12 +3,13 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import AdminDashboard from "./components/core/Dashboard/AdminDashboard/AdminDashboard";
-import VendorDashboard from "./components/core/Dashboard/VendorDashboard";
+import VendorDashboard from "./components/core/Dashboard/VendorDashboard/VendorDashboard";
 import UserDashboard from "./components/core/Dashboard/UserDashboard/UserDashboard";
 import ProtectedRoute from "./components/core/Auth/ProtectedRoute";
 import AdminHome from "./components/core/Dashboard/AdminDashboard/AdminHome";
 import ManualLeadEntry from "./components/core/Dashboard/UserDashboard/ManualLeadEntry";
 import BulkUpload from "./components/common/BulkUpload";
+import CreateVendorForm from "./components/core/Dashboard/VendorDashboard/CreateVendorForm";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         >
           {/* Nested Routes for Admin */}
           <Route index element={<AdminHome />} />
+          <Route path="vendors-creation" element={<CreateVendorForm/>} />
           <Route path="assign-vendor" element={<div>Assign Vendor</div>} />
           <Route path="commission" element={<div>Commission</div>} />
           <Route path="reports" element={<div>Reports</div>} />
@@ -58,8 +60,6 @@ function App() {
         >
           {/* Nested Routes for Admin */}
           <Route index element={<ManualLeadEntry />} />
-          <Route path="bulk-upload" element={<div>buld upload</div>} />
-          <Route path="forex-portal" element={<div>forex portal</div>} />
           <Route path="Transaction-history" element={<div>Transaction</div>} />
         </Route>
         </Routes>

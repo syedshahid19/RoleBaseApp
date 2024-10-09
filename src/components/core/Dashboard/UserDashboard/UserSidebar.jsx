@@ -30,24 +30,6 @@ const UserSidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/user-dashboard/bulk-upload"
-            className="block py-2 px-4 hover:bg-richblue-400 rounded"
-            activeClassName="bg-richblue-700"
-          >
-            bulk upload
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/user-dashboard/forex-portal"
-            className="block py-2 px-4 hover:bg-richblue-400 rounded"
-            activeClassName="bg-richblue-700"
-          >
-            Forex portal and Inquiriy
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
             to="/user-dashboard/Transaction-history"
             className="block py-2 px-4 hover:bg-richblue-400 rounded"
             activeClassName="bg-richblue-700"

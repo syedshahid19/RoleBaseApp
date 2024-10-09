@@ -1,6 +1,42 @@
 // controllers/vendorController.js
 const Lead = require("../models/Lead");
 const User = require("../models/User");
+const Vendor = require("../models/vendor");
+
+
+// Create Vendor
+exports.createVendor = async (req, res) => {
+  try {
+    const { name, phone, location, service } = req.body;
+
+    const existingLead = await Vendor.findOne({ phone });
+    if (existingLead) {
+      return res.status(400).json({ message: 'Vendor already exists.' });
+    }
+
+    const vendor = new Vendor({
+      name,
+      phone,
+      location,
+      service,
+    });
+
+    await vendor.save();
+    res.status(201).json({ success: true, vendor });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Get all vendors
+exports.getVendors = async (req, res) => {
+  try {
+    const vendors = await Vendor.find();
+    res.status(200).json({ success: true, vendors });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 // Get all leads assigned to the vendor
 exports.getAssignedLeads = async (req, res) => {

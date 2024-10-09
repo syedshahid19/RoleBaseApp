@@ -37,18 +37,13 @@ exports.assignLead = async (req, res) => {
   exports.updateLeadStatus = async (req, res) => {
     try {
       const leadId = req.params.id;
-      const { status, commission } = req.body;
+      const { status } = req.body;
   
       const lead = await Lead.findByIdAndUpdate(
         leadId,
-        { status, commission },
+        { status },
         { new: true }
       );
-  
-      // Update vendor's commission
-      if (lead.assignedTo) {
-        await User.findByIdAndUpdate(lead.assignedTo, { $inc: { commission } }, { new: true });
-      }
   
       if (!lead) {
         return res.status(404).json({ success: false, message: "Lead not found" });

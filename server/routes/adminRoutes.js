@@ -2,9 +2,16 @@ const express = require("express");
 const router = express.Router();
 const {auth, isAdmin} = require("../middleware/Auth");
 const { getAllLeads, assignLead, updateLeadStatus, getReports } = require("../controllers/adminController");
+const {createVendor, getVendors} = require("../controllers/vendorController");
 
 // Get all leads
 router.get("/leads", auth, isAdmin, getAllLeads);
+
+// Create Vendors
+router.post('/vendors',auth, isAdmin, createVendor);
+
+// Get all leads
+router.get('/getVendors', auth, isAdmin,getVendors);
 
 // Assign lead to vendor
 router.put("/leads/:id/assign", auth, isAdmin, assignLead);
