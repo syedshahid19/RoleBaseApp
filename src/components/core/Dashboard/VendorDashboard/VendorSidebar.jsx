@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 
-const AdminSidebar = () => {
+const VendorSidebar = () => {
 
   const navigate = useNavigate();
 
@@ -17,51 +17,33 @@ const AdminSidebar = () => {
   };
   return (
     <div className="h-screen w-60 bg-richblue-500 text-white p-4 fixed left-0 top-0">
-      <h2 className="text-2xl font-bold mb-8">Admin Dashboard</h2>
+      <h2 className="text-2xl font-bold mb-8">Vendor Dashboard</h2>
       <ul className="space-y-4">
         <li>
           <NavLink
-            to="/admin-dashboard"
+            to="/vendor-dashboard"
             className="block py-2 px-4 hover:bg-richblue-400 rounded"
             activeClassName="bg-richblue-700"
           >
-            Home - All Leads
+            Home - Leads Assigned
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="/admin-dashboard/vendors-creation"
+            to="/vendor-dashboard/Tracking-Performance"
             className="block py-2 px-4 hover:bg-richblue-400 rounded"
             activeClassName="bg-richblue-700"
           >
-            Create Vendor
+            Tracking Performance
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="/admin-dashboard/commission"
+            to="/vendor-dashboard/monitor-commission"
             className="block py-2 px-4 hover:bg-richblue-400 rounded"
             activeClassName="bg-richblue-700"
           >
-            Commission
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin-dashboard/reports"
-            className="block py-2 px-4 hover:bg-richblue-400 rounded"
-            activeClassName="bg-richblue-700"
-          >
-            Reports
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin-dashboard/bulk-upload"
-            className="block py-2 px-4 hover:bg-richblue-400 rounded"
-            activeClassName="bg-richblue-700"
-          >
-            Bulk Upload
+            Monitor Commission
           </NavLink>
         </li>
         <button onClick={handleLogout}>Logout</button>
@@ -70,4 +52,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default VendorSidebar;

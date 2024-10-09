@@ -14,7 +14,7 @@ router.post('/vendors',auth, isAdmin, createVendor);
 router.get('/getVendors', auth, isAdmin,getVendors);
 
 // Assign lead to vendor
-router.put("/leads/:id/assign", auth, isAdmin, assignLead);
+router.put("/leads/:id/assignVendor", auth, isAdmin, assignLead);
 
 // Update lead status and commission
 router.put("/leads/:id/status", auth, isAdmin, updateLeadStatus);

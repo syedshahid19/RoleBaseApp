@@ -21,7 +21,7 @@ exports.assignLead = async (req, res) => {
         leadId,
         { assignedTo },
         { new: true }
-      );
+      ).populate("assignedTo", "name").exec();
   
       if (!lead) {
         return res.status(404).json({ success: false, message: "Lead not found" });

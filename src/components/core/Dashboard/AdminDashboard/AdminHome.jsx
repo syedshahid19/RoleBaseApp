@@ -12,10 +12,13 @@ const AdminHome = () => {
   const [updatingLeadId, setUpdatingLeadId] = useState(null); // State for which lead is being updated
   const [newStatus, setNewStatus] = useState("New"); // Default status
 
+  const [selectedVendors, setSelectedVendors] = useState({}); // Store selected vendor per lead
+  const [assigningLeadId, setAssigningLeadId] = useState(null); // State for which lead is being assigned a vendor
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('authToken'); // Retrieve auth token
+        const token = localStorage.getItem("authToken"); // Retrieve auth token
 
         // Fetch Leads
         const leadsResponse = await axios.get(`${BASE_URL}/admin/leads`, {
@@ -32,7 +35,6 @@ const AdminHome = () => {
           },
         });
         setVendors(vendorsResponse.data.vendors); // Assuming your API returns vendors array
-
       } catch (err) {
         console.error("Error fetching data:", err);
         setError("Failed to load data");
@@ -46,10 +48,14 @@ const AdminHome = () => {
 
   const updateLeadStatus = async (leadId) => {
     try {
-      const token = localStorage.getItem('authToken');
-      const response = await axios.put(`${BASE_URL}/admin/leads/${leadId}/status`, { status: newStatus }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(
+        `${BASE_URL}/admin/leads/${leadId}/status`,
+        { status: newStatus },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setLeads((prevLeads) =>
         prevLeads.map((lead) => (lead._id === leadId ? response.data.lead : lead))
       );
@@ -60,6 +66,35 @@ const AdminHome = () => {
     }
   };
 
+  const assignVendorToLead = async (leadId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      await axios.put(
+        `${BASE_URL}/admin/leads/${leadId}/assignVendor`,
+        { assignedTo: selectedVendors[leadId] }, // Use the selected vendor for the specific lead
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const updatedLeads = leads.map((lead) =>
+        lead._id === leadId ? { ...lead, assignedTo: selectedVendors[leadId] } : lead
+      );
+      setLeads(updatedLeads);
+      setAssigningLeadId(null); // Reset assigning state
+    } catch (error) {
+      console.error("Error assigning vendor:", error);
+      setError("Failed to assign vendor");
+    }
+  };
+
+  const handleVendorSelection = (leadId, vendorId) => {
+    
+    setSelectedVendors((prevState) => ({
+      ...prevState,
+      [leadId]: vendorId,
+    }));
+  };
+
   if (loading) {
     return <div>Loading leads and vendors...</div>;
   }
@@ -67,6 +102,12 @@ const AdminHome = () => {
   if (error) {
     return <div>{error}</div>;
   }
+
+  // Function to find the vendor name by its ID
+  const getVendorNameById = (vendorId) => {
+  const vendor = vendors.find((vendor) => vendor._id === vendorId);
+  return vendor ? vendor.name : "None"; // Return 'None' if vendor is not found
+};
 
   return (
     <div className="p-6">
@@ -94,7 +135,7 @@ const AdminHome = () => {
       {activeTab === "leads" && (
         <>
           <h1 className="text-3xl font-bold mb-6">All Leads</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
             {leads.map((lead) => (
               <div
                 key={lead._id}
@@ -103,10 +144,42 @@ const AdminHome = () => {
                 <h2 className="text-xl font-semibold mb-2">{lead.name}</h2>
                 <p className="text-gray-600 mb-4">Status: {lead.status}</p>
                 <p className="text-gray-600 mb-4">Contact: {lead.contact}</p>
+                <p className="text-gray-600 mb-4">
+                    Assigned Vendor: {lead.assignedTo ? getVendorNameById(lead.assignedTo) : "None"}
+                </p>
                 <div className="flex justify-between items-center">
-                  <button className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition-colors">
-                    Assign
-                  </button>
+                  {/* Assign Vendor Button */}
+                  {assigningLeadId === lead._id ? (
+                    <>
+                      <select
+                        value={selectedVendors[lead._id] || ""}
+                        onChange={(e) => handleVendorSelection(lead._id, e.target.value)}
+                        className="border rounded p-1 mr-2"
+                      >
+                        <option value="">Select Vendor</option>
+                        {vendors.map((vendor) => (
+                          <option key={vendor._id} value={vendor._id}>
+                            {vendor.name}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={() => assignVendorToLead(lead._id)}
+                        className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition-colors ml-2"
+                      >
+                        Confirm
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setAssigningLeadId(lead._id)}
+                      className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition-colors"
+                    >
+                      Assign Vendor
+                    </button>
+                  )}
+
+                  {/* Update Status Button */}
                   <button
                     onClick={() => setUpdatingLeadId(lead._id)}
                     className="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition-colors"

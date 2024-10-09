@@ -3,13 +3,18 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import AdminDashboard from "./components/core/Dashboard/AdminDashboard/AdminDashboard";
-import VendorDashboard from "./components/core/Dashboard/VendorDashboard/VendorDashboard";
 import UserDashboard from "./components/core/Dashboard/UserDashboard/UserDashboard";
 import ProtectedRoute from "./components/core/Auth/ProtectedRoute";
 import AdminHome from "./components/core/Dashboard/AdminDashboard/AdminHome";
 import ManualLeadEntry from "./components/core/Dashboard/UserDashboard/ManualLeadEntry";
 import BulkUpload from "./components/common/BulkUpload";
 import CreateVendorForm from "./components/core/Dashboard/VendorDashboard/CreateVendorForm";
+import VendorDashboard from "./components/core/Dashboard/VendorDashboard/VendorDashboard"
+import TrackingPerformance from "./components/core/Dashboard/VendorDashboard/TrackingPerformance";
+import MonitorCommission from "./components/core/Dashboard/VendorDashboard/MonitorCommission"
+import VendorHome from "./components/core/Dashboard/VendorDashboard/VendorHome"
+
+
 
 function App() {
   return (
@@ -24,31 +29,36 @@ function App() {
           <Route path="/signup" element={<Signup />} />
 
           <Route
-          path="/admin-dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["Admin"]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        >
-          {/* Nested Routes for Admin */}
-          <Route index element={<AdminHome />} />
-          <Route path="vendors-creation" element={<CreateVendorForm/>} />
-          <Route path="assign-vendor" element={<div>Assign Vendor</div>} />
-          <Route path="commission" element={<div>Commission</div>} />
-          <Route path="reports" element={<div>Reports</div>} />
-          <Route path="bulk-upload" element={<BulkUpload/>} />
-        </Route>
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+            >
+            {/* Nested Routes for Admin */}
+            <Route index element={<AdminHome />} />
+            <Route path="vendors-creation" element={<CreateVendorForm/>} />
+            <Route path="commission" element={<div>Commission</div>} />
+            <Route path="reports" element={<div>Reports</div>} />
+            <Route path="bulk-upload" element={<BulkUpload/>} />
+          </Route>
 
 
-          <Route
+            <Route
             path="/vendor-dashboard"
             element={
               <ProtectedRoute allowedRoles={["Vendor"]}>
-                <VendorDashboard />
+                <VendorDashboard/>
               </ProtectedRoute>
             }
-          />
+            >
+            {/* Nested Routes for Admin */}
+            <Route index element={<VendorHome />} />
+            <Route path="Tracking-Performance" element={<TrackingPerformance/>} />
+            <Route path="monitor-commission" element={<MonitorCommission/>} />
+          </Route>
+
 
           <Route
           path="/user-dashboard"
