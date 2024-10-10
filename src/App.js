@@ -38,6 +38,7 @@ function App() {
             >
             {/* Nested Routes for Admin */}
             <Route index element={<AdminHome />} />
+            <Route path="vendors-creation" element={<CreateVendorForm/>} />
             <Route path="commission" element={<div>Commission</div>} />
             <Route path="reports" element={<div>Reports</div>} />
             <Route path="bulk-upload" element={<BulkUpload/>} />
@@ -54,7 +55,6 @@ function App() {
             >
             {/* Nested Routes for Admin */}
             <Route index element={<VendorHome />} />
-            <Route path="vendors-creation" element={<CreateVendorForm/>} />
             <Route path="Tracking-Performance" element={<TrackingPerformance/>} />
             <Route path="monitor-commission" element={<MonitorCommission/>} />
           </Route>

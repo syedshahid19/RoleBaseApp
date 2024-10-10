@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Lead = require("../models/Lead");
+const Commission = require("../models/Commission");
 
 // Get all leads across all stages
 exports.getAllLeads = async(req, res)=>{
@@ -54,6 +55,56 @@ exports.assignLead = async (req, res) => {
       return res.status(500).json({ success: false, message: "Server Error" });
     }
   };
+
+//   // Set or modify commission rates for vendors
+// exports.setCommissionRate = async (req, res) => {
+//   try {
+//     const { vendorId, serviceType, conversionRate, commissionRate } = req.body;
+
+//     let commission = await Commission.findOne({ vendorId, serviceType });
+
+//     if (commission) {
+//       // Update existing commission rate
+//       commission.conversionRate = conversionRate;
+//       commission.commissionRate = commissionRate;
+//       await commission.save();
+//       res.status(200).json({ message: 'Commission rate updated successfully', commission });
+//     } else {
+//       // Create new commission
+//       const newCommission = new Commission({ vendorId, serviceType, conversionRate, commissionRate });
+//       await newCommission.save();
+//       res.status(201).json({ message: 'Commission rate set successfully', commission: newCommission });
+//     }
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
+// // Track commissions earned by vendors
+// exports.trackCommissions = async (req, res) => {
+//   try {
+//     const commissions = await Commission.find().populate('vendorId');
+//     res.json(commissions);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
+// // Mark commissions as paid
+// exports.markAsPaid = async (req, res) => {
+//   try {
+//     const { commissionId } = req.params;
+//     const commission = await Commission.findById(commissionId);
+
+//     if (!commission) return res.status(404).json({ message: "Commission not found" });
+
+//     commission.status = 'Paid';
+//     await commission.save();
+//     res.json({ message: "Commission marked as paid", commission });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
   
   // Generate reports on lead performance
   exports.getReports = async (req, res) => {
