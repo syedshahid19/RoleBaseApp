@@ -39,3 +39,14 @@ Stage: New → Status: Active
 Stage: Pending → Status: Inactive
 Stage: Deal Won → Status: Active
 Stage: Deal Lost → Status: Closed
+
+
+63b8901dda58f7cda23833f734c2520c24b49850---revision
+
+f3b8a69b9a4a646d4def2c6a4ff81d6657dbffae-- i have made changes in vendor dashboard
+
+commit 2bb81d7fb6915a9d6dac7cdebf324a991bd0b411 (HEAD -> main, origin/main)
+Author: syedshahid19 <syedshahid9550@gmail.com>
+Date:   Wed Oct 9 21:42:05 2024 +0530
+
+    vendor and admin lead assignment done
