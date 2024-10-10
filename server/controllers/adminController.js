@@ -12,6 +12,7 @@ exports.getAllLeads = async(req, res)=>{
     }
 }
 
+
 // Assign lead to a vendor or team member
 exports.assignLead = async (req, res) => {
     try {
