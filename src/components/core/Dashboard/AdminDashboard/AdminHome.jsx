@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useVendors } from "../../../../utils/vendorContext"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
 const AdminHome = () => {
   const [leads, setLeads] = useState([]);
-  const [vendors, setVendors] = useState([]); // State for storing vendors
+  const { vendors, setVendors } = useVendors();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("leads"); // State to track active tab (default is 'leads')

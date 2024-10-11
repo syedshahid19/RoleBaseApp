@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useVendors } from "../../../../utils/vendorContext"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -9,12 +10,30 @@ const VendorHome = () => {
   const [error, setError] = useState(null);
   const [updatingLeadId, setUpdatingLeadId] = useState(null); // State to track which lead is being updated
   const [newStatus, setNewStatus] = useState("New"); // Default status to be updated
+  const { vendors } = useVendors();
+
+  const userId = localStorage.getItem("userId");
+
+  // Function to get vendorId based on userId
+  const getVendorIdByUserId = (userId) => {
+    const vendor = vendors.find(vendor => vendor.userId._id === userId);
+    return vendor ? vendor._id : null;
+  };
+
+  const vendorId = getVendorIdByUserId(userId);
+  console.log("venderhome vendor id", vendorId);
+  
 
   useEffect(() => {
     const fetchAssignedLeads = async () => {
+      if (!vendorId) {
+        setError("Vendor not found for this user.");
+        setLoading(false);
+        return;
+      }
       try {
         const token = localStorage.getItem("authToken"); // Assuming auth token is stored in localStorage
-        const vendorId = localStorage.getItem("vendorId");
+        // const vendorId = localStorage.getItem("vendorId");
         const response = await axios.get(`${BASE_URL}/vendor/${vendorId}/getAssignedleads`, {
           headers: {
             Authorization: `Bearer ${token}`, // Add Authorization header

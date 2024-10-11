@@ -81,6 +81,7 @@ exports.updateLeadStatus = async (req, res) => {
     const leadId = req.params.id;
     const { status } = req.body; // new status for the lead
 
+    // Find the lead and update its status
     const lead = await Lead.findByIdAndUpdate(
       leadId,
       { status },
@@ -91,11 +92,22 @@ exports.updateLeadStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: "Lead not found" });
     }
 
+    // Check if the new status is "Deal Won" and increment leadsConverted count
+    if (status === "Deal Won") {
+      // Increment leadsConverted count for the vendor associated with the lead
+      await Vendor.findByIdAndUpdate(
+        lead.assignedTo, // assuming lead has a vendorId field
+        { $inc: { leadsConverted: 1 } }, // Increment the leadsConverted count
+        { new: true }
+      );
+    }
+
     return res.status(200).json({ success: true, lead });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
 
 // Get team performance metrics
 exports.getTeamPerformance = async (req, res) => {

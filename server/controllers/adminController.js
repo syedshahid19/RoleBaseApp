@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Lead = require("../models/Lead");
-const Commission = require("../models/Commission");
+const Vendor = require("../models/vendor");
 
 // Get all leads across all stages
 exports.getAllLeads = async(req, res)=>{
@@ -11,7 +11,6 @@ exports.getAllLeads = async(req, res)=>{
         return res.status(500).json({ success: false, message: "Server Error" });
     }
 }
-
 
 // Assign lead to a vendor or team member
 exports.assignLead = async (req, res) => {
@@ -36,7 +35,7 @@ exports.assignLead = async (req, res) => {
   };
   
   // Update lead status and commission
-  exports.updateLeadStatus = async (req, res) => {
+exports.updateLeadStatus = async (req, res) => {
     try {
       const leadId = req.params.id;
       const { status } = req.body;
@@ -57,75 +56,71 @@ exports.assignLead = async (req, res) => {
     }
   };
 
-//   // Set or modify commission rates for vendors
-// exports.setCommissionRate = async (req, res) => {
-//   try {
-//     const { vendorId, serviceType, conversionRate, commissionRate } = req.body;
+// Set commission rate for a vendor
+exports.setCommission = async (req, res)=>{
+    const { vendorId, serviceType, commissionRate } = req.body;
 
-//     let commission = await Commission.findOne({ vendorId, serviceType });
-
-//     if (commission) {
-//       // Update existing commission rate
-//       commission.conversionRate = conversionRate;
-//       commission.commissionRate = commissionRate;
-//       await commission.save();
-//       res.status(200).json({ message: 'Commission rate updated successfully', commission });
-//     } else {
-//       // Create new commission
-//       const newCommission = new Commission({ vendorId, serviceType, conversionRate, commissionRate });
-//       await newCommission.save();
-//       res.status(201).json({ message: 'Commission rate set successfully', commission: newCommission });
-//     }
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
-// // Track commissions earned by vendors
-// exports.trackCommissions = async (req, res) => {
-//   try {
-//     const commissions = await Commission.find().populate('vendorId');
-//     res.json(commissions);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
-// // Mark commissions as paid
-// exports.markAsPaid = async (req, res) => {
-//   try {
-//     const { commissionId } = req.params;
-//     const commission = await Commission.findById(commissionId);
-
-//     if (!commission) return res.status(404).json({ message: "Commission not found" });
-
-//     commission.status = 'Paid';
-//     await commission.save();
-//     res.json({ message: "Commission marked as paid", commission });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-  
-  // Generate reports on lead performance
-  exports.getReports = async (req, res) => {
     try {
-      const totalLeads = await Lead.countDocuments();
-      const wonLeads = await Lead.countDocuments({ status: "Deal Won" });
-      const lostLeads = await Lead.countDocuments({ status: "Deal Lost" });
-      const pendingLeads = await Lead.countDocuments({ status: "Pending" });
-      const newLeads = await Lead.countDocuments({ status: "New" });
-  
-      const report = {
-        totalLeads,
-        wonLeads,
-        lostLeads,
-        pendingLeads,
-        newLeads,
-      };
-  
-      return res.status(200).json({ success: true, report });
+      let vendor = await Vendor.findById(vendorId);
+
+      if (!vendor) {
+        return res.status(404).json({ message: "Vendor not found" });
+      }
+
+      // Set the commission rate for the given service type
+      vendor.commissionRates.set(serviceType, commissionRate);
+      await vendor.save();
+
+      return res.status(200).json({
+        success: true,
+        message: `Commission rate of ${commissionRate}% set for ${serviceType}`,
+      });
     } catch (error) {
-      return res.status(500).json({ success: false, message: "Server Error" });
+      return res.status(500).json({ success: false, message: error.message });
     }
-  };
+  }
+
+// Get commission rates for a vendor
+exports.getCommission = async (req, res)=>{
+  const { vendorId } = req.params;
+
+  try {
+    const vendor = await Vendor.findById(vendorId);
+    if (!vendor) {
+      return res.status(404).json({ message: "Vendor not found" });
+    }
+
+    return res.status(200).json({ success: true, commissionRates: vendor.commissionRates });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+
+// Get commission rates for all vendors
+exports.getAllVendorCommission = async (req, res) => {
+  try {
+    // Fetch all vendors
+    const vendors = await Vendor.find({}).populate('userId'); // Populating user info (if you need vendor's name from the User model)
+
+    if (!vendors || vendors.length === 0) {
+      return res.status(404).json({ message: "No vendors found" });
+    }
+
+    // Create array with vendor names and commission rates
+    const vendorCommissionData = vendors.map(vendor => ({
+      vendorName: `${vendor.userId.firstName} ${vendor.userId.lastName}`, // Assuming firstName and lastName exist in User model
+      location: vendor.location,
+      service: vendor.service,
+      commissionRates: Array.from(vendor.commissionRates) // Convert the Map to an array for easy display
+    }));
+
+    return res.status(200).json({ vendorCommissionData });
+
+  } catch (error) {
+    console.error("Error fetching vendor commissions:", error);
+    return res.status(500).json({ message: "An error occurred while fetching commissions" });
+  }
+};
+
+

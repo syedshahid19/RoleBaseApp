@@ -11,7 +11,6 @@ const CommonSidebar = ({ links }) => {
     // Clear token and role from local storage
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
-    
     // Redirect to login page
     navigate("/login");
   };

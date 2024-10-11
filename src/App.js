@@ -11,8 +11,9 @@ import BulkUpload from "./components/common/BulkUpload";
 import CreateVendorForm from "./components/core/Dashboard/VendorDashboard/CreateVendorForm";
 import VendorDashboard from "./components/core/Dashboard/VendorDashboard/VendorDashboard"
 import TrackingPerformance from "./components/core/Dashboard/VendorDashboard/TrackingPerformance";
-import MonitorCommission from "./components/core/Dashboard/VendorDashboard/MonitorCommission"
-import VendorHome from "./components/core/Dashboard/VendorDashboard/VendorHome"
+import MonitorCommission from "./components/core/Dashboard/VendorDashboard/MonitorCommission";
+import VendorHome from "./components/core/Dashboard/VendorDashboard/VendorHome";
+import Commission from "./components/core/Dashboard/AdminDashboard/Commission";
 
 
 
@@ -38,7 +39,7 @@ function App() {
             >
             {/* Nested Routes for Admin */}
             <Route index element={<AdminHome />} />
-            <Route path="commission" element={<div>Commission</div>} />
+            <Route path="commission" element={<Commission/>} />
             <Route path="reports" element={<div>Reports</div>} />
             <Route path="bulk-upload" element={<BulkUpload/>} />
           </Route>

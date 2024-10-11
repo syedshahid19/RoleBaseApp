@@ -16,6 +16,15 @@ const vendorSchema = new mongoose.Schema({
     enum: ['Investment Advice', 'Wealth Management', 'Financial Planning'],
     required: true
   },
+  commissionRates: {
+    type: Map,
+    of: Number, // Store service type and corresponding commission rate
+    default: {},
+  },
+  leadsConverted: {
+    type: Number,
+    default: 0,
+  },
   createdAt: { type: Date, default: Date.now }
 });
 
