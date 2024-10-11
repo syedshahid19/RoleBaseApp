@@ -23,7 +23,7 @@ const CreateVendorForm = () => {
       });
       toast.success("Vendor added successfully!");
       // console.log("response",  response.data.newVendor);
-      localStorage.setItem("vendorId", response.data.newVendor._id)
+      // localStorage.setItem("vendorId", response.data.newVendor._id)
       // Reset form fields after successful submission
       resetForm();
       
