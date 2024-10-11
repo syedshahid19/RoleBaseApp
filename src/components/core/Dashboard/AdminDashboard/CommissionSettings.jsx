@@ -204,7 +204,7 @@ const CommissionSettings = () => {
                 <tr key={vendor.vendorName} className="border-t">
                   <td className="px-4 py-2">{vendor.vendorName}</td>
                   <td className="px-4 py-2">{vendor.service}</td>
-                  <td className="px-4 py-2">{vendor.leadsConverted || "N/A"}</td>
+                  <td className="px-4 py-2">{vendor.leadsConverted || 0}</td>
                   <td className="px-4 py-2">{commissionRate}%</td>
                 </tr>
               );

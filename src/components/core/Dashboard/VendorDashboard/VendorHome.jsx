@@ -20,11 +20,12 @@ const VendorHome = () => {
     return vendor ? vendor._id : null;
   };
 
-  const vendorId = getVendorIdByUserId(userId);
-  console.log("venderhome vendor id", vendorId);
+  // const vendorId = getVendorIdByUserId(userId);
+  // console.log("venderhome vendor id", vendorId);
   
 
   useEffect(() => {
+    const vendorId = getVendorIdByUserId(userId);
     const fetchAssignedLeads = async () => {
       if (!vendorId) {
         setError("Vendor not found for this user.");
@@ -50,7 +51,7 @@ const VendorHome = () => {
     };
 
     fetchAssignedLeads();
-  }, []);
+  }, [vendors, userId]);
 
   // Function to handle lead status update
   const updateLeadStatus = async (leadId) => {
