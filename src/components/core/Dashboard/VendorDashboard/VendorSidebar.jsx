@@ -7,7 +7,6 @@ const VendorSidebar = () => {
     const vendorLinks = [
         { path: "/vendor-dashboard", label: "Vendor Home", icon: <FaHome /> },
         { path: "/vendor-dashboard/vendors-creation", label: "Vendors Creation", icon: <FaChartPie /> },
-        { path: "/vendor-dashboard/tracking-performance", label: "Tracking Performance", icon: <FaChartPie /> },
         { path: "/vendor-dashboard/monitor-commission", label: "Monitor Commission", icon: <FaMoneyBillWave /> },
     ];
     

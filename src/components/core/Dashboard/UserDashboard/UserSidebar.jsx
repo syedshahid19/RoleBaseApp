@@ -7,7 +7,6 @@ const UserSidebar = () => {
 
   const userLinks = [
     { path: "/user-dashboard", label: "Manual Lead Entry", icon: <FaFileUpload /> },
-    { path: "/user-dashboard/transaction-history", label: "Transaction History", icon: <FaHistory /> },
   ];
 
   return (

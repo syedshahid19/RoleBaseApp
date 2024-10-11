@@ -33,7 +33,7 @@ const VendorHome = () => {
       }
       try {
         const token = localStorage.getItem("authToken"); // Assuming auth token is stored in localStorage
-        // const vendorId = localStorage.getItem("vendorId");
+        const vendorId = localStorage.getItem("vendorId");
         const response = await axios.get(`${BASE_URL}/vendor/${vendorId}/getAssignedleads`, {
           headers: {
             Authorization: `Bearer ${token}`, // Add Authorization header

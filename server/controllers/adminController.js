@@ -112,6 +112,7 @@ exports.getAllVendorCommission = async (req, res) => {
       vendorName: `${vendor.userId.firstName} ${vendor.userId.lastName}`, // Assuming firstName and lastName exist in User model
       location: vendor.location,
       service: vendor.service,
+      leadsConverted: vendor.leadsConverted,
       commissionRates: Array.from(vendor.commissionRates) // Convert the Map to an array for easy display
     }));
 

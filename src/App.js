@@ -10,10 +10,9 @@ import ManualLeadEntry from "./components/core/Dashboard/UserDashboard/ManualLea
 import BulkUpload from "./components/common/BulkUpload";
 import CreateVendorForm from "./components/core/Dashboard/VendorDashboard/CreateVendorForm";
 import VendorDashboard from "./components/core/Dashboard/VendorDashboard/VendorDashboard"
-import TrackingPerformance from "./components/core/Dashboard/VendorDashboard/TrackingPerformance";
 import MonitorCommission from "./components/core/Dashboard/VendorDashboard/MonitorCommission";
 import VendorHome from "./components/core/Dashboard/VendorDashboard/VendorHome";
-import Commission from "./components/core/Dashboard/AdminDashboard/Commission";
+import CommissionSettings from "./components/core/Dashboard/AdminDashboard/CommissionSettings";
 
 
 
@@ -39,8 +38,7 @@ function App() {
             >
             {/* Nested Routes for Admin */}
             <Route index element={<AdminHome />} />
-            <Route path="commission" element={<Commission/>} />
-            <Route path="reports" element={<div>Reports</div>} />
+            <Route path="commission" element={<CommissionSettings/>} />
             <Route path="bulk-upload" element={<BulkUpload/>} />
           </Route>
 
@@ -56,7 +54,6 @@ function App() {
             {/* Nested Routes for Admin */}
             <Route index element={<VendorHome />} />
             <Route path="vendors-creation" element={<CreateVendorForm/>} />
-            <Route path="Tracking-Performance" element={<TrackingPerformance/>} />
             <Route path="monitor-commission" element={<MonitorCommission/>} />
           </Route>
 
@@ -70,7 +67,6 @@ function App() {
           }
         >
           <Route index element={<ManualLeadEntry />} />
-          <Route path="Transaction-history" element={<div>Transaction</div>} />
         </Route>
         </Routes>
       </div>
