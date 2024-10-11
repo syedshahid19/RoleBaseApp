@@ -25,7 +25,15 @@ const CommissionSettings = () => {
       setSelectedVendorName(selectedVendor.userId.firstName);
       getCommissionRates();
     }
+
     fetchAllVendorsCommission(); // Fetch all commissions on component mount
+
+    // Set up polling to fetch all commissions every 30 seconds
+    const intervalId = setInterval(fetchAllVendorsCommission, 3000); // Adjust time as needed
+
+    return () => {
+      clearInterval(intervalId); // Clean up the interval on component unmount
+    };
   }, [selectedVendorId, vendors]);
 
   const getCommissionRates = async () => {
@@ -45,7 +53,7 @@ const CommissionSettings = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAllCommissionData(response.data.vendorCommissionData || []);
-      console.log("response.data.venderCommisionData", response.data);
+      console.log("response.data.vendorCommissionData", response.data);
       
     } catch (error) {
       console.error("Error fetching all vendors' commission rates:", error.message);
