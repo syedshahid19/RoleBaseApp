@@ -28,7 +28,6 @@ const CommissionSettings = () => {
 
     fetchAllVendorsCommission(); // Fetch all commissions on component mount
 
-    // Set up polling to fetch all commissions every 30 seconds
     const intervalId = setInterval(fetchAllVendorsCommission, 3000); // Adjust time as needed
 
     return () => {
@@ -75,7 +74,6 @@ const CommissionSettings = () => {
     setCommissionRateValue(calculatedRate);
 
     try {
-      // Send the commission data to the server
       await axios.post(
         `${BASE_URL}/admin/set-commission`,
         {
@@ -87,29 +85,25 @@ const CommissionSettings = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Update the allCommissionData state to reflect the new commission rate
       setAllCommissionData((prevData) =>
         prevData.map((vendor) => {
           if (vendor.vendorName === selectedVendorName && vendor.service === serviceType) {
-            // Update commissionRates for the current service
             const updatedCommissionRates = vendor.commissionRates.map((rate) => {
               if (rate[0] === serviceType) {
-                return [serviceType, calculatedRate]; // Update the specific service rate
+                return [serviceType, calculatedRate];
               }
-              return rate; // Keep the rest of the rates unchanged
+              return rate;
             });
-            // Return the updated vendor data
             return {
               ...vendor,
               leadsConverted: leadsConvertedCount,
               commissionRates: updatedCommissionRates,
             };
           }
-          return vendor; // Return unchanged vendors
+          return vendor;
         })
       );
 
-      // Clear form inputs after submission
       setCommissionRateValue("");
       setLeadsConvertedCount(0);
       setThreshold("");
@@ -123,10 +117,11 @@ const CommissionSettings = () => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4 lg:px-8 w-8/12">
       <h2 className="text-2xl font-bold mb-4">Admin Dashboard - Set Commissions</h2>
 
-      <form onSubmit={handleSetCommission} className="mb-6 bg-white p-4 rounded-lg shadow">
+      {/* Form */}
+      <form onSubmit={handleSetCommission} className="mb-6 bg-white p-4 rounded-lg shadow-md grid gap-6 lg:grid-cols-2">
         <div className="mb-4">
           <label className="block">Select Vendor</label>
           <select
@@ -172,15 +167,17 @@ const CommissionSettings = () => {
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 rounded col-span-full lg:col-span-2">
           Set Commission
         </button>
       </form>
 
-      {/* Table to display all vendors' commission data */}
-      <div className="mt-8">
+      {/* Responsive Table */}
+      <div className="mt-8 overflow-x-auto">
         <h3 className="text-xl font-semibold mb-4">All Vendor Commissions</h3>
-        <table className="min-w-full table-auto bg-white rounded-lg shadow">
+        <table className="min-w-full table-auto bg-white rounded-lg shadow-md">
           <thead>
             <tr className="bg-gray-200">
               <th className="px-4 py-2">Vendor Name</th>
@@ -191,10 +188,6 @@ const CommissionSettings = () => {
           </thead>
           <tbody>
             {allCommissionData.map((vendor) => {
-              // Log the vendor's commission rates to see if they're coming in correctly
-              console.log("Vendor Commission Rates: ", vendor.commissionRates);
-
-              // Find the commission rate for the current service
               const commissionRateEntry = vendor.commissionRates?.find(
                 (rate) => rate[0] === vendor.service
               );

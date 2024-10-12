@@ -36,30 +36,32 @@ const BulkUpload = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-richblack-50 shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold text-richblue-400 mb-6 text-center">
-        Bulk Upload CSV
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="file"
-          accept=".csv"
-          onChange={handleFileChange}
-          required
-          className="w-full px-3 py-2 bg-richblack-25 border border-richblack-200 rounded focus:outline-none focus:ring-2 focus:ring-caribbeangreen-100"
-        />
-        <button
-          type="submit"
-          disabled={isUploading || !file}
-          className={`w-full py-2 text-white bg-caribbeangreen-200 rounded-md shadow ${
-            isUploading
-              ? 'bg-caribbeangreen-100 cursor-not-allowed'
-              : 'hover:bg-caribbeangreen-300'
-          } transition-all duration-300`}
-        >
-          {isUploading ? 'Uploading...' : 'Upload CSV'}
-        </button>
-      </form>
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="max-w-md mx-auto p-6 bg-richblack-50 shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold text-richblue-400 mb-6 text-center">
+          Bulk Upload CSV
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="file"
+            accept=".csv"
+            onChange={handleFileChange}
+            required
+            className="w-full px-3 py-2 bg-richblack-25 border border-richblack-200 rounded focus:outline-none focus:ring-2 focus:ring-caribbeangreen-100"
+          />
+          <button
+            type="submit"
+            disabled={isUploading || !file}
+            className={`w-full py-2 text-white bg-caribbeangreen-200 rounded-md shadow ${
+              isUploading
+                ? 'bg-caribbeangreen-100 cursor-not-allowed'
+                : 'hover:bg-caribbeangreen-300'
+            } transition-all duration-300`}
+          >
+            {isUploading ? 'Uploading...' : 'Upload CSV'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

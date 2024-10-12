@@ -124,7 +124,7 @@ const AdminHome = () => {
   console.log("leads", leads);
 
   return (
-    <div className="p-6">
+    <div className=" px-8">
       <div className="flex items-center justify-center space-x-4 mb-6">
         {/* Tab Buttons */}
         <button
@@ -161,7 +161,7 @@ const AdminHome = () => {
                 <p className="text-gray-600 mb-4">
                     Assigned Vendor: {lead.assignedTo ? getVendorNameById(lead?.assignedTo) : "None"}
                 </p>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col justify-between items-center gap-3">
                   {/* Assign Vendor Button */}
                   {assigningLeadId === lead._id ? (
                     <>

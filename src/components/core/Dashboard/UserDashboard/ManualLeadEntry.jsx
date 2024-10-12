@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 // Location, Service, and Status Arrays
-const locations = ['India', 'USA', 'UK', 'China', 'Japan'];
-const services = ['Investment Advice', 'Wealth Management', 'Financial Planning'];
-const statuses = ['New', 'Pending', 'Deal Won', 'Deal Lost'];
+const locations = ["India", "USA", "UK", "China", "Japan"];
+const services = [
+  "Investment Advice",
+  "Wealth Management",
+  "Financial Planning",
+];
+const statuses = ["New", "Pending", "Deal Won", "Deal Lost"];
 
 const ManualLeadEntry = () => {
   const [leadData, setLeadData] = useState({
@@ -25,7 +29,7 @@ const ManualLeadEntry = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${BASE_URL}/user/createLead`, leadData); 
+      await axios.post(`${BASE_URL}/user/createLead`, leadData);
       toast.success("Lead added successfully!");
       // Reset form fields after successful submission
       resetForm();
@@ -49,11 +53,21 @@ const ManualLeadEntry = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 border border-gray-300 rounded-lg shadow-md bg-white">
-      <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Manual Lead Entry</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg mx-auto p-6 border border-gray-300 rounded-lg shadow-md bg-white sm:p-8 md:p-10 lg:p-12"
+    >
+      <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
+        Manual Lead Entry
+      </h2>
 
       <div className="mb-4">
-        <label htmlFor="name" className="block mb-2 text-gray-700 font-semibold">Name</label>
+        <label
+          htmlFor="name"
+          className="block mb-2 text-gray-700 font-semibold"
+        >
+          Name
+        </label>
         <input
           type="text"
           name="name"
@@ -66,7 +80,12 @@ const ManualLeadEntry = () => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="contact" className="block mb-2 text-gray-700 font-semibold">Contact</label>
+        <label
+          htmlFor="contact"
+          className="block mb-2 text-gray-700 font-semibold"
+        >
+          Contact
+        </label>
         <input
           type="text"
           name="contact"
@@ -79,8 +98,12 @@ const ManualLeadEntry = () => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="service" className="block mb-2 text-gray-700 font-semibold">Service Interested In</label>
-        {/* Select for Service */}
+        <label
+          htmlFor="service"
+          className="block mb-2 text-gray-700 font-semibold"
+        >
+          Service Interested In
+        </label>
         <select
           name="service"
           id="service"
@@ -99,8 +122,12 @@ const ManualLeadEntry = () => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="location" className="block mb-2 text-gray-700 font-semibold">Location</label>
-        {/* Select for Location */}
+        <label
+          htmlFor="location"
+          className="block mb-2 text-gray-700 font-semibold"
+        >
+          Location
+        </label>
         <select
           name="location"
           id="location"
@@ -119,8 +146,12 @@ const ManualLeadEntry = () => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="status" className="block mb-2 text-gray-700 font-semibold">Status</label>
-        {/* Select for Status */}
+        <label
+          htmlFor="status"
+          className="block mb-2 text-gray-700 font-semibold"
+        >
+          Status
+        </label>
         <select
           name="status"
           id="status"
@@ -137,11 +168,14 @@ const ManualLeadEntry = () => {
         </select>
       </div>
 
-      <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-lg w-full hover:bg-blue-700 transition duration-200 ease-in-out">
+      <button
+        type="submit"
+        className="bg-blue-600 text-white py-2 px-4 rounded-lg w-full hover:bg-blue-700 transition duration-200 ease-in-out"
+      >
         Add Lead
       </button>
     </form>
   );
-}
+};
 
 export default ManualLeadEntry;

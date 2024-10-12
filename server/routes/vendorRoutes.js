@@ -6,11 +6,15 @@ const {
   updateLeadStatus,
   getTeamPerformance,
   getEarnedCommissions,
-  createVendor
+  createVendor,
+  getVendors
 } = require("../controllers/vendorController");
 
 // creation of vendor
 router.post('/Createvendor',auth, isVendor, createVendor);
+
+// get vendors from vendor prootected route
+router.get("/getAllVendors", auth, isVendor, getVendors);
 
 // Get leads assigned to the vendor
 router.get("/:vendorId/getAssignedleads", auth, isVendor, getAssignedLeads);

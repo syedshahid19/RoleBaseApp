@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useVendors } from "../../../../utils/vendorContext"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -10,48 +9,50 @@ const VendorHome = () => {
   const [error, setError] = useState(null);
   const [updatingLeadId, setUpdatingLeadId] = useState(null); // State to track which lead is being updated
   const [newStatus, setNewStatus] = useState("New"); // Default status to be updated
-  const { vendors } = useVendors();
+  const [vendors, setVendors] = useState([]);
 
   const userId = localStorage.getItem("userId");
 
-  // Function to get vendorId based on userId
-  const getVendorIdByUserId = (userId) => {
-    const vendor = vendors.find(vendor => vendor.userId._id === userId);
-    return vendor ? vendor._id : null;
-  };
-
-  // const vendorId = getVendorIdByUserId(userId);
-  // console.log("venderhome vendor id", vendorId);
-  
-
+  // Fetch vendors and match with userId
   useEffect(() => {
-    const vendorId = getVendorIdByUserId(userId);
-    const fetchAssignedLeads = async () => {
-      if (!vendorId) {
-        setError("Vendor not found for this user.");
-        setLoading(false);
-        return;
-      }
+    const fetchVendorsAndLeads = async () => {
       try {
         const token = localStorage.getItem("authToken"); // Assuming auth token is stored in localStorage
-        // const vendorId = localStorage.getItem("vendorId");
-        const response = await axios.get(`${BASE_URL}/vendor/${vendorId}/getAssignedleads`, {
+
+        // Fetch vendors first
+        const vendorsResponse = await axios.get(`${BASE_URL}/vendor/getAllVendors`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const allVendors = vendorsResponse.data.vendors;
+        setVendors(allVendors);
+
+        // Find vendor with matching userId
+        const vendor = allVendors.find((v) => v.userId._id === userId);
+        if (!vendor) {
+          setError("Vendor not found for this user.");
+          setLoading(false);
+          return;
+        }
+
+        // Fetch assigned leads for the found vendor
+        const response = await axios.get(`${BASE_URL}/vendor/${vendor._id}/getAssignedleads`, {
           headers: {
             Authorization: `Bearer ${token}`, // Add Authorization header
           },
         });
-
         setAssignedLeads(response.data.leads); // Assuming the leads array is inside `data.leads`
       } catch (err) {
-        console.error("Error fetching assigned leads:", err);
+        console.error("Error fetching assigned leads or vendors:", err);
         setError("Failed to load assigned leads");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAssignedLeads();
-  }, [vendors, userId]);
+    fetchVendorsAndLeads();
+  }, [userId]);
 
   // Function to handle lead status update
   const updateLeadStatus = async (leadId) => {
@@ -71,7 +72,7 @@ const VendorHome = () => {
       // Immediately update the assigned leads list with the new status without needing a refresh
       setAssignedLeads((prevLeads) =>
         prevLeads.map((lead) =>
-          lead._id === leadId ? (lead._id === leadId ? response.data.lead : lead): lead
+          lead._id === leadId ? response.data.lead : lead
         )
       );
       setUpdatingLeadId(null); // Reset after updating

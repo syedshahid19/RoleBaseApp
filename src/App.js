@@ -16,7 +16,7 @@ import CommissionSettings from "./components/core/Dashboard/AdminDashboard/Commi
 
 function App() {
   return (
-    <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-richblack-900 font-inter">
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-richblack-900  font-inter">
       <div className="flex items-center justify-center">
         <Routes>
           {/* Default Route to Login */}
