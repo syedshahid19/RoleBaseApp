@@ -51,7 +51,7 @@ function SignupForm() {
       const response = await axios.post(`${BASE_URL}/signup`, signupData);
       const { token } = response.data;
       console.log("response", response);
-      
+
       // Set token in cookie instead of local storage
       Cookies.set("authToken", token, {
         httpOnly: true,
@@ -59,7 +59,6 @@ function SignupForm() {
         sameSite: "Strict",
         expires: 1,
       }); // Expires in 1 day
-      
 
       toast.success("Account created successfully! Please log in.");
       navigate("/login");
@@ -94,12 +93,13 @@ function SignupForm() {
     { id: 3, tabName: "User", type: ACCOUNT_TYPE.USER },
   ];
 
-
-
   return (
     <div>
       <Tab tabData={tabData} field={accountType} setField={setAccountType} />
-      <form className="flex w-full flex-col gap-y-4" onSubmit={handleOnSubmit}>
+      <form
+        className="flex w-full flex-col gap-y-4 lg:px-0 px-2"
+        onSubmit={handleOnSubmit}
+      >
         <div className="flex gap-x-4">
           <label>
             <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
@@ -112,7 +112,7 @@ function SignupForm() {
               value={firstName}
               onChange={handleOnChange}
               placeholder="Enter first name"
-              className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+              className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
             />
           </label>
           <label>
@@ -126,7 +126,7 @@ function SignupForm() {
               value={lastName}
               onChange={handleOnChange}
               placeholder="Enter last name"
-              className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+              className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
             />
           </label>
         </div>
@@ -141,7 +141,7 @@ function SignupForm() {
             value={email}
             onChange={handleOnChange}
             placeholder="Enter email address"
-            className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+            className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
           />
         </label>
         <label className="w-full">
@@ -155,7 +155,7 @@ function SignupForm() {
             value={phoneNumber}
             onChange={handleOnChange}
             placeholder="Enter Phone Number"
-            className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+            className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
           />
         </label>
         <div className="flex gap-x-4">
@@ -170,7 +170,7 @@ function SignupForm() {
               value={password}
               onChange={handleOnChange}
               placeholder="Enter Password"
-              className="form-style w-full !pr-10 bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+              className="form-style w-full !pr-10 bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
             />
             <span
               onClick={() => setShowPassword((prev) => !prev)}
@@ -194,7 +194,7 @@ function SignupForm() {
               value={confirmPassword}
               onChange={handleOnChange}
               placeholder="Confirm Password"
-              className="form-style w-full !pr-10 bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+              className="form-style w-full !pr-10 bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
             />
             <span
               onClick={() => setShowConfirmPassword((prev) => !prev)}
@@ -221,7 +221,6 @@ function SignupForm() {
             Login
           </NavLink>
         </div>
-        
       </form>
     </div>
   );

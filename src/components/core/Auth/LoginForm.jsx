@@ -36,7 +36,6 @@ function LoginForm() {
 
       const { token, accountType } = response.data.user;
 
-    
       // Store token and role
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", accountType);
@@ -64,14 +63,15 @@ function LoginForm() {
       setLoading(false);
     }
   };
-  
 
   return (
     <form
       onSubmit={handleOnSubmit}
-      className="mt-6 flex w-full flex-col gap-y-4"
+      className="mt-6 flex w-full max-w-md flex-col gap-y-4 mx-auto lg:px-0 px-2"
     >
-      <h1 className="text-white text-3xl">Welcome to dashboard login</h1>
+      <h1 className="text-white text-3xl text-center">
+        Welcome to dashboard login
+      </h1>
       <label className="w-full">
         <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
           Email Address <sup className="text-pink-200">*</sup>
@@ -83,7 +83,7 @@ function LoginForm() {
           value={email}
           onChange={handleOnChange}
           placeholder="Enter email address"
-          className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+          className="form-style w-full bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
         />
       </label>
       <label className="relative">
@@ -97,7 +97,7 @@ function LoginForm() {
           value={password}
           onChange={handleOnChange}
           placeholder="Enter Password"
-          className="form-style w-full !pr-10 bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50"
+          className="form-style w-full !pr-10 bg-richblack-800 h-12 pl-4 rounded-lg text-richblack-50 outline-none"
         />
         <span
           onClick={() => setShowPassword((prev) => !prev)}
@@ -126,7 +126,6 @@ function LoginForm() {
           Sign Up
         </NavLink>
       </div>
-
     </form>
   );
 }

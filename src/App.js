@@ -9,12 +9,10 @@ import AdminHome from "./components/core/Dashboard/AdminDashboard/AdminHome";
 import ManualLeadEntry from "./components/core/Dashboard/UserDashboard/ManualLeadEntry";
 import BulkUpload from "./components/common/BulkUpload";
 import CreateVendorForm from "./components/core/Dashboard/VendorDashboard/CreateVendorForm";
-import VendorDashboard from "./components/core/Dashboard/VendorDashboard/VendorDashboard"
+import VendorDashboard from "./components/core/Dashboard/VendorDashboard/VendorDashboard";
 import MonitorCommission from "./components/core/Dashboard/VendorDashboard/MonitorCommission";
 import VendorHome from "./components/core/Dashboard/VendorDashboard/VendorHome";
 import CommissionSettings from "./components/core/Dashboard/AdminDashboard/CommissionSettings";
-
-
 
 function App() {
   return (
@@ -35,39 +33,37 @@ function App() {
                 <AdminDashboard />
               </ProtectedRoute>
             }
-            >
+          >
             {/* Nested Routes for Admin */}
             <Route index element={<AdminHome />} />
-            <Route path="commission" element={<CommissionSettings/>} />
-            <Route path="bulk-upload" element={<BulkUpload/>} />
+            <Route path="commission" element={<CommissionSettings />} />
+            <Route path="bulk-upload" element={<BulkUpload />} />
           </Route>
 
-
-            <Route
+          <Route
             path="/vendor-dashboard"
             element={
               <ProtectedRoute allowedRoles={["Vendor"]}>
-                <VendorDashboard/>
+                <VendorDashboard />
               </ProtectedRoute>
             }
-            >
+          >
             {/* Nested Routes for Admin */}
             <Route index element={<VendorHome />} />
-            <Route path="vendors-creation" element={<CreateVendorForm/>} />
-            <Route path="monitor-commission" element={<MonitorCommission/>} />
+            <Route path="vendors-creation" element={<CreateVendorForm />} />
+            <Route path="monitor-commission" element={<MonitorCommission />} />
           </Route>
 
-
           <Route
-          path="/user-dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["User"]}>
-              <UserDashboard />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<ManualLeadEntry />} />
-        </Route>
+            path="/user-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["User"]}>
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<ManualLeadEntry />} />
+          </Route>
         </Routes>
       </div>
     </div>

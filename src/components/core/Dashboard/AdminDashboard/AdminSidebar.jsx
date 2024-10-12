@@ -11,7 +11,7 @@ const AdminSidebar = () => {
   ];
 
   return (
-    <div className="flex">
+    <div className="">
       <CommonSidebar links={adminLinks} />
     </div>
   );

@@ -1,57 +1,103 @@
-// CommonSidebar.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaSignOutAlt } from "react-icons/fa"; // Import icons
+import { FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
 
 const CommonSidebar = ({ links }) => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(true); // State to manage sidebar visibility
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKey);
+
+    return () => {
+      window.removeEventListener('keydown', handleEscKey);
+    };
+  }, []);
 
   const handleLogout = () => {
-    // Clear token and role from local storage
     localStorage.removeItem("authToken");
     localStorage.removeItem("userRole");
-    // Redirect to login page
     navigate("/login");
   };
 
   return (
-    <div className={`bg-richblue-500 text-white p-4 fixed top-0 left-0 h-screen transition-transform duration-300 ${isOpen ? 'w-60' : 'w-16'} shadow-lg rounded-r-xl`}>
-      <div className="flex justify-between items-center">
-        <h2 className={`text-2xl font-bold mb-8 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-          Dashboard
-        </h2>
-        <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
-          {/* Icon for toggling sidebar */}
-          <span className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-            <svg width="20" height="20" fill="currentColor">
-              <path d="M10 15l-5-5h10l-5 5z" />
-            </svg>
-          </span>
-        </button>
-      </div>
-      <ul className="space-y-4 mt-4">
-        {links.map((link) => (
-          <li key={link.path}>
-            <NavLink
-              to={link.path}
-              className={`flex items-center py-3 px-4 rounded transition-colors duration-300 hover:bg-richblue-400 ${isOpen ? 'justify-start' : 'justify-center'}`}
-              activeClassName="bg-richblue-700"
-            >
-              {/* Icon rendering based on the path */}
-              {link.icon && <span className="text-xl">{link.icon}</span>} {/* Increased icon size */}
-              {isOpen && <span className="ml-2 text-lg">{link.label}</span>} {/* Increased label font size */}
-            </NavLink>
-          </li>
-        ))}
-        <li>
-          <button onClick={handleLogout} className="flex items-center py-3 px-4 rounded transition-colors duration-300 hover:bg-red-500 justify-start">
-            <FaSignOutAlt className="mr-2 text-xl" /> {/* Logout icon with increased size */}
-            {isOpen && <span className="text-lg">Logout</span>} {/* Increased label font size */}
+    <>
+      {/* Toggle Button - Always Visible */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="fixed top-4 left-4 z-20 bg-richblue-500 text-white p-2 rounded-md transition-all duration-300 ease-in-out hover:bg-richblue-600"
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+      >
+        {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+      </button>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 ease-in-out"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      {/* Sidebar */}
+      <div className={`
+        bg-richblue-500 text-white fixed top-0 left-0 h-full z-40
+        w-64 shadow-lg rounded-r-xl overflow-y-auto
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <div className="flex items-center justify-between p-4">
+          <p className="text-2xl font-bold">Dashboard</p>
+          <button 
+            onClick={() => setIsOpen(false)} 
+            className="text-white focus:outline-none hover:text-gray-300"
+            aria-label="Close menu"
+          >
+            <FaTimes size={24} />
           </button>
-        </li>
-      </ul>
-    </div>
+        </div>
+
+        <nav>
+          <ul className="space-y-2 mt-4 px-4">
+            {links.map((link) => (
+              <li key={link.path}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) => `
+                    flex items-center py-3 px-4 rounded transition-colors duration-300
+                    hover:bg-richblue-400
+                    ${isActive ? 'bg-richblue-600' : ''}
+                  `}
+                  end
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.icon && <span className="text-xl mr-3">{link.icon}</span>}
+                  <span className="text-lg">{link.label}</span>
+                </NavLink>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsOpen(false);
+                }}
+                className="flex items-center w-full py-3 px-4 rounded transition-colors duration-300 hover:bg-red-500"
+              >
+                <FaSignOutAlt className="text-xl mr-3" />
+                <span className="text-lg">Logout</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </>
   );
 };
 

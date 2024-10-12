@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: ["https://role-base-app.vercel.app", "https://transaction-app-ochre.vercel.app"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
