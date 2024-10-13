@@ -4,6 +4,13 @@ import { toast } from "react-hot-toast";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const locations = ["India", "USA", "UK", "China", "Japan"];
+const services = [
+  "Investment Advice",
+  "Wealth Management",
+  "Financial Planning",
+];
+
 const CreateVendorForm = () => {
   const [location, setLocation] = useState("");
   const [service, setService] = useState("");
@@ -12,14 +19,18 @@ const CreateVendorForm = () => {
     const userId = localStorage.getItem("userId");
     e.preventDefault();
     try {
-      const token = localStorage.getItem('authToken');
-      const response = await axios.post(`${BASE_URL}/vendor/Createvendor`, {
-        userId,
-        location,
-        service
-      }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(
+        `${BASE_URL}/vendor/Createvendor`,
+        {
+          userId,
+          location,
+          service,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       toast.success("Vendor added successfully!");
       // Reset form fields after successful submission
       resetForm();
@@ -37,7 +48,9 @@ const CreateVendorForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-lg mx-auto p-6 bg-richblack-5 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4 text-richblue-500">Create Vendor</h2>
+        <h2 className="text-2xl font-bold mb-4 text-richblue-500">
+          Create Vendor
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <select
             value={location}
@@ -46,11 +59,11 @@ const CreateVendorForm = () => {
             className="border p-3 w-full rounded bg-richblack-800 text-richblack-200"
           >
             <option value="">Select Location</option>
-            <option value="India">India</option>
-            <option value="USA">USA</option>
-            <option value="UK">UK</option>
-            <option value="China">China</option>
-            <option value="Japan">Japan</option>
+            {locations.map((loc, index) => (
+              <option key={index} value={loc}>
+                {loc}
+              </option>
+            ))}
           </select>
           <select
             value={service}
@@ -59,9 +72,11 @@ const CreateVendorForm = () => {
             className="border p-3 w-full rounded bg-richblack-800 text-richblack-200"
           >
             <option value="">Select Service</option>
-            <option value="Investment Advice">Investment Advice</option>
-            <option value="Wealth Management">Wealth Management</option>
-            <option value="Financial Planning">Financial Planning</option>
+            {services.map((srv, index) => (
+              <option key={index} value={srv}>
+                {srv}
+              </option>
+            ))}
           </select>
           <button
             type="submit"

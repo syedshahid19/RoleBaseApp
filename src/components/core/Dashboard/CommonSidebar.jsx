@@ -8,15 +8,15 @@ const CommonSidebar = ({ links }) => {
 
   useEffect(() => {
     const handleEscKey = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         setIsOpen(false);
       }
     };
 
-    window.addEventListener('keydown', handleEscKey);
+    window.addEventListener("keydown", handleEscKey);
 
     return () => {
-      window.removeEventListener('keydown', handleEscKey);
+      window.removeEventListener("keydown", handleEscKey);
     };
   }, []);
 
@@ -29,8 +29,8 @@ const CommonSidebar = ({ links }) => {
   return (
     <>
       {/* Toggle Button - Always Visible */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
+      <button
+        onClick={() => setIsOpen(!isOpen)}
         className="fixed top-4 left-4 z-20 bg-richblue-500 text-white p-2 rounded-md transition-all duration-300 ease-in-out hover:bg-richblue-600"
         aria-label={isOpen ? "Close menu" : "Open menu"}
       >
@@ -39,23 +39,25 @@ const CommonSidebar = ({ links }) => {
 
       {/* Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 ease-in-out"
           onClick={() => setIsOpen(false)}
         ></div>
       )}
 
       {/* Sidebar */}
-      <div className={`
+      <div
+        className={`
         bg-richblue-500 text-white fixed top-0 left-0 h-full z-40
         w-64 shadow-lg rounded-r-xl overflow-y-auto
         transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+      `}
+      >
         <div className="flex items-center justify-between p-4">
           <p className="text-2xl font-bold">Dashboard</p>
-          <button 
-            onClick={() => setIsOpen(false)} 
+          <button
+            onClick={() => setIsOpen(false)}
             className="text-white focus:outline-none hover:text-gray-300"
             aria-label="Close menu"
           >
@@ -72,12 +74,14 @@ const CommonSidebar = ({ links }) => {
                   className={({ isActive }) => `
                     flex items-center py-3 px-4 rounded transition-colors duration-300
                     hover:bg-richblue-400
-                    ${isActive ? 'bg-richblue-600' : ''}
+                    ${isActive ? "bg-richblue-600" : ""}
                   `}
                   end
                   onClick={() => setIsOpen(false)}
                 >
-                  {link.icon && <span className="text-xl mr-3">{link.icon}</span>}
+                  {link.icon && (
+                    <span className="text-xl mr-3">{link.icon}</span>
+                  )}
                   <span className="text-lg">{link.label}</span>
                 </NavLink>
               </li>

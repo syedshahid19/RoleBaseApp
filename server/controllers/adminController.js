@@ -108,7 +108,7 @@ exports.getCommission = async (req, res) => {
 exports.getAllVendorCommission = async (req, res) => {
   try {
     // Fetch all vendors
-    const vendors = await Vendor.find({}).populate("userId"); // Populating user info (if you need vendor's name from the User model)
+    const vendors = await Vendor.find({}).populate("userId"); // Populating user info (if need vendor's name from the User model)
 
     if (!vendors || vendors.length === 0) {
       return res.status(404).json({ message: "No vendors found" });

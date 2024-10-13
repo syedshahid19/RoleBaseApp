@@ -1,12 +1,14 @@
 import React from "react";
 import CommonSidebar from "../CommonSidebar";
-import { FaFileUpload, FaHistory } from "react-icons/fa";
-
+import { FaFileUpload } from "react-icons/fa";
 
 const UserSidebar = () => {
-
   const userLinks = [
-    { path: "/user-dashboard", label: "Manual Lead Entry", icon: <FaFileUpload /> },
+    {
+      path: "/user-dashboard",
+      label: "Manual Lead Entry",
+      icon: <FaFileUpload />,
+    },
   ];
 
   return (

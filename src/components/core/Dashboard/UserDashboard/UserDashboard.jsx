@@ -7,7 +7,7 @@ const UserDashboard = () => {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <UserSidebar />
-      
+
       {/* Main Content */}
       <div className=" px-16 py-10 mt-16 md:mt-8 lg:mt-0 bg-gray-100">
         <Outlet />
@@ -16,6 +16,4 @@ const UserDashboard = () => {
   );
 };
 
-
 export default UserDashboard;
-

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Tab = ({ tabData, field, setField }) => {
+const Tab = React.memo(({ tabData, field, setField }) => {
   return (
     <div
       style={{
@@ -23,6 +23,6 @@ const Tab = ({ tabData, field, setField }) => {
       ))}
     </div>
   );
-};
+});
 
 export default Tab;

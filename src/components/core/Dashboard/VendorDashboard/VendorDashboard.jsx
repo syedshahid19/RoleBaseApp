@@ -7,7 +7,7 @@ const VendorDashboard = () => {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <VendorSidebar />
-      
+
       {/* Main Content */}
       <div className=" p-8 bg-gray-100">
         <Outlet />
@@ -17,4 +17,3 @@ const VendorDashboard = () => {
 };
 
 export default VendorDashboard;
-

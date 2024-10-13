@@ -10,7 +10,6 @@ const CommissionSettings = () => {
   const [selectedVendorId, setSelectedVendorId] = useState("");
   const [commissionRateValue, setCommissionRateValue] = useState("");
   const [leadsConvertedCount, setLeadsConvertedCount] = useState("");
-  // const [commissionRates, setCommissionRates] = useState({});
   const [allCommissionData, setAllCommissionData] = useState([]);
   const [selectedVendorName, setSelectedVendorName] = useState("");
   const [serviceType, setServiceType] = useState("");
@@ -23,7 +22,6 @@ const CommissionSettings = () => {
       setServiceType(selectedVendor.service || "Forex");
       setLeadsConvertedCount(selectedVendor.leadsConverted || 0);
       setSelectedVendorName(selectedVendor.userId.firstName);
-      // getCommissionRates();
     }
 
     fetchAllVendorsCommission(); // Fetch all commissions on component mount
@@ -35,16 +33,6 @@ const CommissionSettings = () => {
     };
   }, [selectedVendorId, vendors]);
 
-  // const getCommissionRates = async () => {
-  //   if (!selectedVendorId) return;
-
-  //   try {
-  //     const response = await axios.get(`${BASE_URL}/admin/get-commission/${selectedVendorId}`);
-  //     setCommissionRates(response.data.commissionRates || {});
-  //   } catch (error) {
-  //     console.error("Error fetching commission rates:", error.message);
-  //   }
-  // };
 
   const fetchAllVendorsCommission = async () => {
     try {
@@ -52,7 +40,6 @@ const CommissionSettings = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAllCommissionData(response.data.vendorCommissionData || []);
-      console.log("response.data.vendorCommissionData", response.data);
       
     } catch (error) {
       console.error("Error fetching all vendors' commission rates:", error.message);

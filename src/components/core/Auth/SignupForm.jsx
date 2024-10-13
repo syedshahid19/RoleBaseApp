@@ -217,7 +217,10 @@ function SignupForm() {
 
         <div className="flex items-center justify-between mt-4">
           <span className="text-white">Already have an account?</span>
-          <NavLink to="/login" className=" hover:text-richblue-500 hover:underline transition-all duration-300 ease-in-out text-white">
+          <NavLink
+            to="/login"
+            className=" hover:text-richblue-500 hover:underline transition-all duration-300 ease-in-out text-white"
+          >
             Login
           </NavLink>
         </div>
