@@ -1,20 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const vendorSchema = new mongoose.Schema({
-  userId: {  
+  userId: {
     type: mongoose.Schema.Types.ObjectId, // Reference to the Vendor model
-    ref: 'User', 
-    required: true 
+    ref: "User",
+    required: true,
   },
   location: {
     type: String,
-    enum: ['India', 'USA', 'UK', 'China', 'Japan'],
-    required: true
+    enum: ["India", "USA", "UK", "China", "Japan"],
+    required: true,
   },
   service: {
     type: String,
-    enum: ['Investment Advice', 'Wealth Management', 'Financial Planning'],
-    required: true
+    enum: ["Investment Advice", "Wealth Management", "Financial Planning"],
+    required: true,
   },
   commissionRates: {
     type: Map,
@@ -25,12 +25,7 @@ const vendorSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  earnedCommission: { 
-    type: Number, 
-    default: 0 
-  },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Vendor', vendorSchema);
-
+module.exports = mongoose.model("Vendor", vendorSchema);

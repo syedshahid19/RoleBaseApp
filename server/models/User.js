@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: true,
       trim: true,
-      unique:true
+      unique: true,
     },
     password: {
       type: String,
@@ -34,8 +34,9 @@ const userSchema = new mongoose.Schema(
       enum: ["Admin", "Vendor", "User"],
       required: true,
     },
-    commission: { 
-        type: Number, default: 0 
+    commission: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

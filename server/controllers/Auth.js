@@ -56,7 +56,8 @@ exports.signup = async (req, res) => {
     if (existPhoneNumber) {
       return res.status(400).json({
         success: false,
-        message: "Phone number is already registered. Please use a different phone number.",
+        message:
+          "Phone number is already registered. Please use a different phone number.",
       });
     }
 

@@ -11,22 +11,22 @@ const LeadSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    enum: ['India', 'USA', 'UK', 'China', 'Japan'],
-    required: true
+    enum: ["India", "USA", "UK", "China", "Japan"],
+    required: true,
   },
   service: {
     type: String,
-    enum: ['Investment Advice', 'Wealth Management', 'Financial Planning'],
-    required: true
+    enum: ["Investment Advice", "Wealth Management", "Financial Planning"],
+    required: true,
   },
   status: {
     type: String,
     enum: ["New", "Pending", "Deal Won", "Deal Lost"],
     default: "New",
   },
-  assignedTo: { 
+  assignedTo: {
     type: mongoose.Schema.Types.ObjectId, // Reference to the Vendor model
-    ref: 'Vendor',
+    ref: "Vendor",
   },
   createdAt: {
     type: Date,

@@ -1,18 +1,18 @@
-const express = require('express');
-const csv = require('csv-parser');
-const multer = require('multer');
-const { Readable } = require('stream');
-const Lead = require('../models/Lead'); // Adjust the path as necessary
+const express = require("express");
+const csv = require("csv-parser");
+const multer = require("multer");
+const { Readable } = require("stream");
+const Lead = require("../models/Lead");
 
 const router = express.Router();
 
 // Set up Multer storage
-const storage = multer.memoryStorage(); // or use diskStorage if you want to save to a file
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.post('/upload', upload.single('csvFile'), async (req, res) => {
+router.post("/upload", upload.single("csvFile"), async (req, res) => {
   const results = [];
-  const CHUNK_SIZE = 1000; // Adjust batch size based on your server's memory limits
+  const CHUNK_SIZE = 1000; // Adjust batch size based on server's memory limits
   const bulkOps = [];
 
   try {
@@ -22,17 +22,18 @@ router.post('/upload', upload.single('csvFile'), async (req, res) => {
 
     readableFileStream
       .pipe(csv())
-      .on('data', (data) => {
+      .on("data", (data) => {
         // Prepare a bulk operation for each lead
         bulkOps.push({
           updateOne: {
             filter: { contact: data.contact }, // Use the contact field to check for duplicates
             update: {
-              $setOnInsert: { // Only set if the document is being inserted
+              $setOnInsert: {
+                // Only set if the document is being inserted
                 name: data.name,
                 service: data.service,
                 location: data.location,
-                status:data.status
+                status: data.status,
               },
             },
             upsert: true, // Insert if it doesn't exist
@@ -45,7 +46,7 @@ router.post('/upload', upload.single('csvFile'), async (req, res) => {
           bulkOps.length = 0; // Clear batch after processing
         }
       })
-      .on('end', async () => {
+      .on("end", async () => {
         // Insert remaining leads if any
         if (bulkOps.length > 0) {
           results.push(bulkOps);
@@ -59,14 +60,18 @@ router.post('/upload', upload.single('csvFile'), async (req, res) => {
         }
 
         // Fetch the leads for response (including those that were updated)
-        const savedLeads = await Lead.find({ contact: { $in: insertedLeads.map(id => id.contact) } });
+        const savedLeads = await Lead.find({
+          contact: { $in: insertedLeads.map((id) => id.contact) },
+        });
 
         // Send the saved leads as response
-        res.status(200).json({ message: 'File processed successfully', data: savedLeads });
+        res
+          .status(200)
+          .json({ message: "File processed successfully", data: savedLeads });
       });
   } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).json({ message: 'Error processing file', error });
+    console.error(error);
+    res.status(500).json({ message: "Error processing file", error });
   }
 });
 
