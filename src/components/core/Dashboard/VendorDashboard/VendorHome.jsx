@@ -83,63 +83,69 @@ const VendorHome = () => {
   };
 
   if (loading) {
-    return <div>Loading assigned leads...</div>;
+    return <div className="text-white text-xl text-center">Loading assigned leads...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className=" text-red-300 text-xl text-center">{error}</div>;
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Assigned Leads</h1>
-
-      {assignedLeads.length === 0 ? (
-        <div>No leads assigned yet.</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {assignedLeads.map((lead) => (
-            <div
-              key={lead._id}
-              className="bg-white shadow-lg rounded-lg p-4 transform transition-transform duration-300 hover:scale-105"
-            >
-              <h2 className="text-xl font-semibold mb-2">{lead.name}</h2>
-              <p className="text-gray-600 mb-4">Status: {lead.status}</p>
-              <p className="text-gray-600 mb-4">Contact: {lead.contact}</p>
-
-              {/* Update Status Section */}
-              {updatingLeadId === lead._id ? (
-                <>
-                  <select
-                    value={newStatus}
-                    onChange={(e) => setNewStatus(e.target.value)}
-                    className="border rounded p-1"
-                  >
-                    <option value="New">New</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Deal Won">Deal Won</option>
-                    <option value="Deal Lost">Deal Lost</option>
-                  </select>
-                  <button
-                    onClick={() => updateLeadStatus(lead._id)}
-                    className="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition-colors ml-2"
-                  >
-                    Confirm
-                  </button>
-                </>
-              ) : (
-                <button
-                  onClick={() => setUpdatingLeadId(lead._id)}
-                  className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition-colors"
+    <h1 className="text-3xl font-bold mb-6 text-white text-center">Assigned Leads</h1>
+  
+    {assignedLeads.length === 0 ? (
+      <div className="text-white text-xl text-center">No leads assigned yet.</div>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {assignedLeads.map((lead) => (
+          <div
+            key={lead._id}
+            className="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 hover:scale-105 hover:shadow-xl 
+                      border-l-4 border-blue-500 hover:border-blue-700 animate-fadeIn"
+          >
+            <h2 className="text-2xl font-bold mb-3 text-gray-800">{lead.name}</h2>
+            <p className="text-gray-600 mb-2">
+              <span className="font-semibold">Status:</span> {lead.status}
+            </p>
+            <p className="text-gray-600 mb-4">
+              <span className="font-semibold">Contact:</span> {lead.contact}
+            </p>
+  
+            {/* Update Status Section */}
+            {updatingLeadId === lead._id ? (
+              <>
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  className="border rounded-lg p-2 bg-gray-100 focus:ring-2 focus:ring-blue-500"
                 >
-                  Update Status
+                  <option value="New">New</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Deal Won">Deal Won</option>
+                  <option value="Deal Lost">Deal Lost</option>
+                </select>
+                <button
+                  onClick={() => updateLeadStatus(lead._id)}
+                  className="bg-gradient-to-r from-green-400 to-green-600 text-white py-2 px-4 rounded-lg hover:from-green-500 hover:to-green-700 transition-colors ml-3 mt-2"
+                >
+                  Confirm
                 </button>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+              </>
+            ) : (
+              <button
+                onClick={() => setUpdatingLeadId(lead._id)}
+                className="bg-gradient-to-r from-blue-400 to-blue-600 text-white py-2 px-4 rounded-lg hover:from-blue-500 hover:to-blue-700 transition-colors mt-2"
+              >
+                Update Status
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+  
   );
 };
 

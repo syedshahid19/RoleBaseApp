@@ -118,7 +118,7 @@ const CommissionSettings = () => {
 
   return (
     <div className="container mx-auto px-4 lg:px-8 w-8/12">
-      <h2 className="text-2xl font-bold mb-4">Admin Dashboard - Set Commissions</h2>
+      <h2 className="text-2xl font-bold mb-4 text-white text-center">Set Commissions</h2>
 
       {/* Form */}
       <form onSubmit={handleSetCommission} className="mb-6 bg-white p-4 rounded-lg shadow-md grid gap-6 lg:grid-cols-2">
@@ -169,17 +169,17 @@ const CommissionSettings = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded col-span-full lg:col-span-2">
+          className="bg-blue-500 text-white p-2 rounded col-span-full lg:col-span-2 hover:bg-richblue-700 transition-all duration-300 ease-in">
           Set Commission
         </button>
       </form>
 
       {/* Responsive Table */}
-      <div className="mt-8 overflow-x-auto">
-        <h3 className="text-xl font-semibold mb-4">All Vendor Commissions</h3>
+      <div className="mt-8 scroll-container">
+        <h3 className="text-xl font-semibold mb-4 text-white">All Vendor Commissions</h3>
         <table className="min-w-full table-auto bg-white rounded-lg shadow-md">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className=" bg-richblue-100">
               <th className="px-4 py-2">Vendor Name</th>
               <th className="px-4 py-2">Service Type</th>
               <th className="px-4 py-2">Leads Converted</th>
@@ -191,7 +191,7 @@ const CommissionSettings = () => {
               const commissionRateEntry = vendor.commissionRates?.find(
                 (rate) => rate[0] === vendor.service
               );
-              const commissionRate = commissionRateEntry ? commissionRateEntry[1] : "N/A";
+              const commissionRate = commissionRateEntry ? commissionRateEntry[1] : 0;
 
               return (
                 <tr key={vendor.vendorName} className="border-t">

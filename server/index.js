@@ -13,12 +13,12 @@ require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
 // https://role-base-app.vercel.app
-// http://localhost:3000
+// "http://localhost:3000"
 // ["https://role-base-app.vercel.app", "https://transaction-app-ochre.vercel.app"]
 
 app.use(
   cors({
-    origin: ["https://role-base-app.vercel.app", "https://transaction-app-ochre.vercel.app"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );

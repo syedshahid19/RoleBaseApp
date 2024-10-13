@@ -112,7 +112,7 @@ function LoginForm() {
       </label>
       <button
         type="submit"
-        className={`mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900 ${
+        className={`mt-6 rounded-[8px] bg-richblue-500 py-[8px] px-[12px] font-medium text-white ${
           loading ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={loading}
@@ -122,7 +122,7 @@ function LoginForm() {
 
       <div className="flex items-center justify-between mt-4">
         <span className="text-white">Don't have an account?</span>
-        <NavLink to="/signup" className="text-yellow-200 hover:underline">
+        <NavLink to="/signup" className=" hover:text-richblue-500 hover:underline transition-all duration-300 ease-in-out  text-white">
           Sign Up
         </NavLink>
       </div>

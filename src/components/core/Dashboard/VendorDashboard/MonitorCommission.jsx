@@ -53,24 +53,24 @@ const MonitorCommission = () => {
   }
 
   return (
-    <div className="flex flex-col items-center p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Commission Monitor</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center lg:mx-0 md:mx-0 sm:mx-6">
+      <h1 className="text-3xl font-bold mb-6 text-center text-white">Commission Monitor</h1>
       {filteredVendor ? (
         <div 
           key={filteredVendor._id} 
-          className="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-lg shadow-lg p-8 transform transition-transform duration-300 hover:scale-105 hover:shadow-xl min-w-[300px] w-full max-w-md"
+          className="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-lg shadow-lg p-8 transform transition-transform duration-300 hover:scale-105 hover:shadow-xl min-w-[350px] w-full max-w-md"
         >
-          <h2 className="text-xl font-semibold mb-2 truncate">{filteredVendor.userId.firstName}</h2>
+          <h2 className="text-3xl font-semibold mb-2 truncate">{filteredVendor.userId.firstName}</h2>
           <div className="space-y-3">
-            <p className="flex justify-between text-lg">
+            <p className="flex justify-between text-xl mt-4">
               <span className="font-medium">Service:</span>
               <span className="text-right">{filteredVendor.service}</span>
             </p>
-            <p className="flex justify-between text-lg">
+            <p className="flex justify-between text-xl mt-4">
               <span className="font-medium">Leads Converted:</span>
               <span className="text-right">{filteredVendor.leadsConverted}</span>
             </p>
-            <p className="flex justify-between text-lg">
+            <p className="flex justify-between text-xl mt-4">
               <span className="font-medium">Commission Rate:</span>
               <span className="text-right">{filteredVendor.commissionRates[filteredVendor.service]}%</span>
             </p>
