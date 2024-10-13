@@ -27,7 +27,6 @@ const ManualLeadEntry = () => {
   };
 
   const handleSubmit = async (e) => {
-    const token = localStorage.getItem("authToken");
     e.preventDefault();
     try {
       await axios.post(`${BASE_URL}/user/createLead`, leadData);
