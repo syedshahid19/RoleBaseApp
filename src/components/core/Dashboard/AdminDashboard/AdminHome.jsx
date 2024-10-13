@@ -53,7 +53,7 @@ const AdminHome = () => {
     fetchData();
 
     // Polling every 10 seconds
-    const intervalId = setInterval(fetchData, 10000);
+    const intervalId = setInterval(fetchData, 3000);
 
     // Cleanup on unmount
     return () => clearInterval(intervalId);
