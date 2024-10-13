@@ -94,6 +94,8 @@ const CommissionSettings = () => {
       setCommissionRateValue("");
       setLeadsConvertedCount(0);
       setThreshold("");
+      setServiceType("");        
+      setSelectedVendorName(""); 
     } catch (error) {
       console.error("Error setting commission rate:", error.message);
     }
