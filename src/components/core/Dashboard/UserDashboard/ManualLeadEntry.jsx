@@ -30,9 +30,7 @@ const ManualLeadEntry = () => {
     const token = localStorage.getItem("authToken");
     e.preventDefault();
     try {
-      await axios.post(`${BASE_URL}/user/createLead`, leadData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.post(`${BASE_URL}/user/createLead`, leadData);
       toast.success("Lead added successfully!");
       // Reset form fields after successful submission
       resetForm();

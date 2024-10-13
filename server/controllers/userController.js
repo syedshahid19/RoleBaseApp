@@ -10,7 +10,6 @@ exports.createLeadController = async (req, res) => {
     if (existingLead) {
       return res.status(400).json({ message: "Lead already exists." });
     }
-
     const newLead = new Lead({ name, contact, service, location, status });
     await newLead.save();
     res.status(201).json(newLead);
