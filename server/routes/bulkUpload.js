@@ -32,6 +32,7 @@ router.post('/upload', upload.single('csvFile'), async (req, res) => {
                 name: data.name,
                 service: data.service,
                 location: data.location,
+                status:data.status
               },
             },
             upsert: true, // Insert if it doesn't exist

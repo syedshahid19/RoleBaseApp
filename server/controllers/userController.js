@@ -13,8 +13,7 @@ exports.createLeadController = async (req, res) => {
       return res.status(400).json({ message: 'Lead already exists.' });
     }
 
-
-    const newLead = new Lead({ name, contact, service, status, location });
+    const newLead = new Lead({ name, contact, service,location, status });
     await newLead.save();
     res.status(201).json(newLead);
   } catch (err) {

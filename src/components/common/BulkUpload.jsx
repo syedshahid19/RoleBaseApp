@@ -24,6 +24,9 @@ const BulkUpload = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      console.log("response of bulk upload", response.data);
+      
       toast.success(response.data.message);
     } catch (error) {
       console.error('Error uploading file:', error);
