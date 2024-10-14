@@ -135,7 +135,7 @@ exports.login = async (req, res) => {
           expiresIn: "24h",
         }
       );
-      // Save token to user document in database// Save the token
+      // Save token to user document in database
       user = user.toObject();
       user.token = token;
       user.password = undefined;

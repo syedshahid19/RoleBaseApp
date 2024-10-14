@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useVendors } from "../../../../utils/vendorContext";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const CommissionSettings = () => {
   const { vendors } = useVendors();
-  const [threshold, setThreshold] = useState("");
-  const [selectedVendorId, setSelectedVendorId] = useState("");
-  const [commissionRateValue, setCommissionRateValue] = useState("");
-  const [leadsConvertedCount, setLeadsConvertedCount] = useState("");
-  const [allCommissionData, setAllCommissionData] = useState([]);
-  const [selectedVendorName, setSelectedVendorName] = useState("");
-  const [serviceType, setServiceType] = useState("");
+  const [formData, setFormData] = useState({
+    threshold: "",
+    selectedVendorId: "",
+    commissionRateValue: "",
+    leadsConvertedCount: "",
+    selectedVendorName: "",
+    serviceType: "",
+  });
 
+  const [allCommissionData, setAllCommissionData] = useState([]);
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
-    const selectedVendor = vendors.find((vendor) => vendor._id === selectedVendorId);
+    const selectedVendor = vendors.find((vendor) => vendor._id === formData.selectedVendorId);
     if (selectedVendor) {
-      setServiceType(selectedVendor.service || "Forex");
-      setLeadsConvertedCount(selectedVendor.leadsConverted || 0);
-      setSelectedVendorName(selectedVendor.userId.firstName);
+      setFormData((prevData) => ({
+        ...prevData,
+        serviceType: selectedVendor.service || "Forex",
+        leadsConvertedCount: selectedVendor.leadsConverted || 0,
+        selectedVendorName: selectedVendor.userId.firstName,
+      }));
     }
 
     fetchAllVendorsCommission(); // Fetch all commissions on component mount
@@ -31,8 +37,7 @@ const CommissionSettings = () => {
     return () => {
       clearInterval(intervalId); // Clean up the interval on component unmount
     };
-  }, [selectedVendorId, vendors]);
-
+  }, [formData.selectedVendorId, vendors]);
 
   const fetchAllVendorsCommission = async () => {
     try {
@@ -40,7 +45,6 @@ const CommissionSettings = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAllCommissionData(response.data.vendorCommissionData || []);
-      
     } catch (error) {
       console.error("Error fetching all vendors' commission rates:", error.message);
     }
@@ -52,13 +56,14 @@ const CommissionSettings = () => {
 
   const handleSetCommission = async (e) => {
     e.preventDefault();
+    const { selectedVendorId, serviceType, threshold, commissionRateValue, leadsConvertedCount, selectedVendorName } = formData;
+
     if (!selectedVendorId) {
-      alert("Please select a vendor");
+      toast.error("Please select a vendor");
       return;
     }
 
     const calculatedRate = calculateCommissionRate(serviceType, leadsConvertedCount, threshold, commissionRateValue);
-    setCommissionRateValue(calculatedRate);
 
     try {
       await axios.post(
@@ -91,19 +96,24 @@ const CommissionSettings = () => {
         })
       );
 
-      setCommissionRateValue("");
-      setLeadsConvertedCount(0);
-      setThreshold("");
-      setServiceType("");   
-      setSelectedVendorId("");     
-      setSelectedVendorName(""); 
+      setFormData({
+        threshold: "",
+        selectedVendorId: "",
+        commissionRateValue: "",
+        leadsConvertedCount: "",
+        selectedVendorName: "",
+        serviceType: "",
+      });
     } catch (error) {
       console.error("Error setting commission rate:", error.message);
     }
   };
 
   const handleVendorChange = (e) => {
-    setSelectedVendorId(e.target.value);
+    setFormData({
+      ...formData,
+      selectedVendorId: e.target.value,
+    });
   };
 
   return (
@@ -115,7 +125,7 @@ const CommissionSettings = () => {
         <div className="mb-4">
           <label className="block">Select Vendor</label>
           <select
-            value={selectedVendorId}
+            value={formData.selectedVendorId}
             onChange={handleVendorChange}
             className="border p-2 w-full rounded"
           >
@@ -130,15 +140,15 @@ const CommissionSettings = () => {
 
         <div className="mb-4">
           <label className="block font-semibold mb-2">Service Type</label>
-          <span className="border p-2 w-full rounded bg-gray-100">{serviceType || "N/A"}</span>
+          <span className="border p-2 w-full rounded bg-gray-100">{formData.serviceType || "N/A"}</span>
         </div>
 
         <div className="mb-4">
           <label className="block">Threshold for Leads</label>
           <input
             type="number"
-            value={threshold}
-            onChange={(e) => setThreshold(Number(e.target.value))}
+            value={formData.threshold}
+            onChange={(e) => setFormData({ ...formData, threshold: Number(e.target.value) })}
             className="border p-2 w-full rounded"
             placeholder="Enter Threshold for Leads"
             required
@@ -149,8 +159,8 @@ const CommissionSettings = () => {
           <label className="block">Commission Rate</label>
           <input
             type="number"
-            value={commissionRateValue}
-            onChange={(e) => setCommissionRateValue(Number(e.target.value))}
+            value={formData.commissionRateValue}
+            onChange={(e) => setFormData({ ...formData, commissionRateValue: Number(e.target.value) })}
             className="border p-2 w-full rounded"
             placeholder="Enter Commission Rate"
             required
@@ -159,7 +169,8 @@ const CommissionSettings = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded col-span-full lg:col-span-2 hover:bg-richblue-700 transition-all duration-300 ease-in">
+          className="bg-blue-500 text-white p-2 rounded col-span-full lg:col-span-2 hover:bg-richblue-700 transition-all duration-300 ease-in"
+        >
           Set Commission
         </button>
       </form>
@@ -169,7 +180,7 @@ const CommissionSettings = () => {
         <h3 className="text-xl font-semibold mb-4 text-white">All Vendor Commissions</h3>
         <table className="min-w-full table-auto bg-white rounded-lg shadow-md">
           <thead>
-            <tr className=" bg-richblue-100">
+            <tr className="bg-richblue-100">
               <th className="px-4 py-2">Vendor Name</th>
               <th className="px-4 py-2">Service Type</th>
               <th className="px-4 py-2">Leads Converted</th>

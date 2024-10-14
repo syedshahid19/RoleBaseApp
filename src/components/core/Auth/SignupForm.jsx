@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback} from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-hot-toast";
 import { ACCOUNT_TYPE } from "../../../utils/constants";
@@ -27,12 +27,12 @@ function SignupForm() {
   const { firstName, lastName, email, phoneNumber, password, confirmPassword } =
     formData;
 
-  const handleOnChange = (e) => {
+  const handleOnChange = useCallback((e) => {
     setFormData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
-  };
+  }, [])
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -50,7 +50,6 @@ function SignupForm() {
     try {
       const response = await axios.post(`${BASE_URL}/signup`, signupData);
       const { token } = response.data;
-      console.log("response", response);
 
       // Set token in cookie instead of local storage
       Cookies.set("authToken", token, {
@@ -87,11 +86,14 @@ function SignupForm() {
     setAccountType(ACCOUNT_TYPE.ADMIN);
   };
 
-  const tabData = [
-    { id: 1, tabName: "Admin", type: ACCOUNT_TYPE.ADMIN },
-    { id: 2, tabName: "Vendor", type: ACCOUNT_TYPE.VENDOR },
-    { id: 3, tabName: "User", type: ACCOUNT_TYPE.USER },
-  ];
+  const tabData = useMemo(
+    () => [
+      { id: 1, tabName: "Admin", type: ACCOUNT_TYPE.ADMIN },
+      { id: 2, tabName: "Vendor", type: ACCOUNT_TYPE.VENDOR },
+      { id: 3, tabName: "User", type: ACCOUNT_TYPE.USER },
+    ],
+    []
+  );
 
   return (
     <div>

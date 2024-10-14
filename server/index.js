@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const { dbConnect } = require("./config/database");
 const cookieParser = require("cookie-parser");
-var cors = require("cors");
+const cors = require("cors");
 require("dotenv").config();
 
 // Import routes
@@ -15,8 +15,7 @@ const BulkUploadRoutes = require("./routes/bulkUpload");
 // Use environment variables for configuration
 const PORT = process.env.PORT || 3000;
 
-// https://role-base-app.vercel.app
-// "http://localhost:3000"
+// "http://localhost:3000"  use this to run in local
 // ["https://role-base-app.vercel.app", "https://transaction-app-ochre.vercel.app"]
 
 // CORS configuration
