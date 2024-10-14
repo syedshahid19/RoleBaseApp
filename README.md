@@ -48,7 +48,7 @@ Follow these steps to run the Lead Management System on your local machine:
 #### 1. Clone the Repository:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/syedshahid19/RoleBaseApp.git
 cd your-repo-name
 ```
 
