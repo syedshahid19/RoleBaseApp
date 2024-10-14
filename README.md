@@ -1,52 +1,113 @@
-# React & Tailwind CSS Starter Pack
+# Lead Management System (LMS)
 
-This is a starter pack for creating React projects with Tailwind CSS configured. It uses React version **18.2** and Tailwind CSS version **3.2**.
+## Project Overview
 
-## Usage
+This **Lead Management System** is a role-based web application that helps capture and manage leads from third-party websites. It features three dashboards for Admin, Vendor, and User roles, each with specific functionalities for handling leads. The project includes authentication, authorization, lead assignment, commission tracking, bulk lead uploads, and status updates.
 
-This starter pack includes a basic setup for using **Tailwind CSS with React**. To start building your own components and styles, follow these steps:
+### Key Features:
 
-1. Clone the repository to your local machine.
-    ```sh
-    git clone https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git
-    ```
+- **Admin Dashboard:**
+  1. View all leads and vendors.
+  2. Assign vendors to leads and update lead status.
+  3. Set and view commission settings based on lead conversion count and service type.
+  4. Bulk upload of leads via CSV file format.
+  5. When clicking on form data in the third-party web, it should display in the admin dashboard, and all submissions should be shown. Duplication of leads is also handled.
 
-1. Install the required packages.
-    ```sh
-    cd react-tailwind-css-starter-pack
-    npm install
-    ```
+- **Vendor Dashboard:**
+  1. Set location and service type after logging in.
+  2. View leads assigned by the admin and update lead status.
+  3. Track commission based on the number of lead conversions.
 
-1. Start the development server.
-    ```sh
-    npm start
-    ```
-1. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
-1. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.
+- **User Dashboard:**
+  1. Create new leads that are visible in the admin dashboard.
 
-The project is set up to use `postcss-cli` to process your CSS files. You can add your own `tailwind.config.js` file to customize your Tailwind setup.
+### Technologies Used:
 
-## Contributing
+- **Backend**: Node.js with Express
+- **Frontend**: React with Tailwind CSS for styling
+- **Database**: MongoDB
+- **Authentication and Authorization**: JSON Web Tokens (JWT)
+- **Form Validation**: Custom validation for inputs
+- **Pagination**: Implemented for better data navigation
+- **Error Handling**: Proper error handling throughout the application
+- **Security**: Security measures has been implemented
 
-Contributions are welcome! If you have any suggestions or find any issues, please feel free to open an issue or a pull request.
+---
 
+## Installation and Setup Guide
 
+Follow these steps to run the Lead Management System on your local machine:
 
+### Prerequisites:
 
+- Node.js (latest version)
+- MongoDB (either installed locally or use a cloud service like MongoDB Atlas)
 
+### Steps to Run the Project Locally:
 
-Stage: New → Status: Active
-Stage: Pending → Status: Inactive
-Stage: Deal Won → Status: Active
-Stage: Deal Lost → Status: Closed
+#### 1. Clone the Repository:
 
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
 
-63b8901dda58f7cda23833f734c2520c24b49850---revision
+#### 2. Set Up Backend (Node.js + Express):
 
-f3b8a69b9a4a646d4def2c6a4ff81d6657dbffae-- i have made changes in vendor dashboard
+1. Navigate to the backend folder:
+   ```bash
+   cd server
+   ```
 
-commit 2bb81d7fb6915a9d6dac7cdebf324a991bd0b411 (HEAD -> main, origin/main)
-Author: syedshahid19 <syedshahid9550@gmail.com>
-Date:   Wed Oct 9 21:42:05 2024 +0530
+2. Install required packages:
+   ```bash
+   npm install
+   ```
 
-    vendor and admin lead assignment done
+3. Create a `.env` file in the root of the backend directory and add the following configuration:
+
+   ```bash
+   PORT=5000
+   MONGO_URI=<your-mongodb-uri>
+   JWT_SECRET=<your-jwt-secret>
+   ```
+
+4. Start the backend server:
+   ```bash
+   npm run dev
+   ```
+
+#### 3. Set Up Frontend (React + Tailwind CSS):
+
+1. Navigate to the frontend folder:
+   ```bash
+   cd clinet
+   ```
+
+2. Install required packages:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root of the frontend directory and add the following configuration:
+
+   ```bash
+   REACT_APP_API_URL=http://localhost:5000
+   ```
+
+4. Start the frontend application:
+   ```bash
+   npm start
+   ```
+
+#### 4. Open in Browser:
+
+Once both servers (backend and frontend) are running, open the application in your browser at:
+
+```
+http://localhost:3000
+```
+
+## Conclusion
+
+This project is a robust and scalable **Lead Management System** designed to handle lead capturing and management from third-party websites. It includes role-based access, commission tracking, bulk uploads, and more. The system is highly customizable, with error handling, pagination, form validation, and security measures to ensure smooth operation.
